@@ -1,59 +1,70 @@
 {
-  "project": {
-    "version": "1.0.0-beta.22-1",
-    "name": "form-project"
-  },
-  "apps": [
-    {
-      "root": "src",
-      "outDir": "dist",
-      "assets": [
-        "assets",
-        "favicon.ico"
-      ],
-      "index": "index.html",
-      "main": "main.ts",
-      "test": "test.ts",
-      "tsconfig": "tsconfig.json",
-      "prefix": "app",
-      "mobile": false,
-      "styles": [
-        "styles.scss"
-      ],
-      "scripts": [],
-      "environments": {
-        "source": "environments/environment.ts",
-        "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
-      }
-    }
-  ],
-  "addons": [],
-  "packages": [],
-  "e2e": {
-    "protractor": {
-      "config": "./protractor.conf.js"
-    }
-  },
-  "test": {
-    "karma": {
-      "config": "./karma.conf.js"
-    }
-  },
-  "defaults": {
-    "styleExt": "scss",
-    "prefixInterfaces": false,
-    "inline": {
-      "style": false,
-      "template": false
+    "project": {
+        "version": "1.0.0-beta.22-1",
+        "name": "form-project"
     },
-    "spec": {
-      "class": false,
-      "component": true,
-      "directive": true,
-      "module": false,
-      "pipe": true,
-      "service": true
+    "apps": [{
+        "root": "src",
+        "outDir": "dist",
+        "assets": [
+            "assets",
+            "favicon.ico",
+            "../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.eot",
+            "../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.svg",
+            "../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf",
+            "../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff",
+            "../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2",
+            "../node_modules/font-awesome/fonts/FontAwesome.otf",
+            "../node_modules/font-awesome/fonts/fontawesome-webfont.eot",
+            "../node_modules/font-awesome/fonts/fontawesome-webfont.svg",
+            "../node_modules/font-awesome/fonts/fontawesome-webfont.ttf",
+            "../node_modules/font-awesome/fonts/fontawesome-webfont.woff",
+            "../node_modules/font-awesome/fonts/fontawesome-webfont.woff2"
+        ],
+        "index": "index.html",
+        "main": "main.ts",
+        "test": "test.ts",
+        "tsconfig": "tsconfig.json",
+        "prefix": "app",
+        "mobile": false,
+        "styles": [
+            "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+            "../node_modules/font-awesome/css/font-awesome.min.css",
+            "styles.scss"
+        ],
+        "scripts": [],
+        "environments": {
+            "source": "environments/environment.ts",
+            "dev": "environments/environment.ts",
+            "prod": "environments/environment.prod.ts"
+        }
+    }],
+    "addons": [],
+    "packages": [],
+    "e2e": {
+        "protractor": {
+            "config": "./protractor.conf.js"
+        }
+    },
+    "test": {
+        "karma": {
+            "config": "./karma.conf.js"
+        }
+    },
+    "defaults": {
+        "styleExt": "scss",
+        "prefixInterfaces": false,
+        "inline": {
+            "style": false,
+            "template": false
+        },
+        "spec": {
+            "class": false,
+            "component": true,
+            "directive": true,
+            "module": false,
+            "pipe": true,
+            "service": true
+        }
     }
-  }
 }

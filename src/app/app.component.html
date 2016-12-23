@@ -1,29 +1,36 @@
 <div class="container-fluid">
 
-  <h1 *ngIf="loading">Loading</h1>
-
-  <div *ngFor="let item of items | async" class="panel panel-default">
-    <div class="panel-heading">
-      {{item.name}}
-    </div>
-    <div class="panel-body">
-
-      <form #modelForm="ngForm" (ngSubmit)="submitForm(modelForm.value, modelForm.valid)" novalidate>
-
-        <!--name-->
-        <div class="form-group">
-          <label>Name</label>
-          <input type="text" class="form-control" name="name" [(ngModel)]="item.name" #name required minlength="5">
-          <small [hidden]="name.valid || (name.pristine && !f.submitted)">
-            Name is required (minimum 5 characters).
-          </small>
-        </div>
-
-
-        <button type="submit" class="btn btn-primary" [disabled]="!modelForm.form.valid">Save</button>
-      </form>
-
-      {{item | json}}
-    </div>
-  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+        </th>
+        <th>Name</th>
+        <th>Created</th>
+        <th>Created By</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items | async">
+        <td>
+          <button type="button" class="btn btn-xs btn-default" (click)="selectItem(item)">
+            <i class="fa fa-fw" [ngClass]="{'fa-check': item.selected}"></i>
+          </button>
+        </td>
+        <td>
+          {{item.name}}
+        </td>
+        <td>
+          {{item.created | date}}
+        </td>
+        <td>
+          {{item.creator}}
+        </td>
+        <td>
+          {{item.statusHR}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

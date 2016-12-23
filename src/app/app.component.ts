@@ -6,25 +6,33 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
 
 import { Form } from './form/form.model';
+import { FormService } from './form/form.service';
+
+import { cleansedModel } from './shared/cleansed.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [
+    FormService
+  ]
 })
 export class AppComponent {
   myFormItem: FormGroup;
-  items: Observable<any[]>;
-  loading: Boolean = true;
+  cleanup: cleansedModel = new cleansedModel();
+  items: FirebaseListObservable<Array<Form>>;
 
-  constructor(af: AngularFire, fb: FormBuilder) {
+  constructor(af: AngularFire, 
+              private fs: FormService, 
+              fb: FormBuilder) {
+
     af.auth.login({ method: AuthMethods.Anonymous, provider: AuthProviders.Anonymous});
 
-    this.loading = true;
-    this.items = af.database.list('/Forms');
+    this.items = fs.getForms(af);
   }
 
-  submitForm(model: Form, isValid: boolean) {
-        console.log(model, isValid);
-    }
+  selectItem (item: Form) {
+    item.selected = !item.selected
+  } 
 }

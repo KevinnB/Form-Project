@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { FormComponent } from './form/form.component';
 
 import { AngularFireModule } from 'angularfire2';
+import { CardComponent } from './card/card.component';
+import { StatusComponent } from './status/status.component';
 
 
 // Must export the config
@@ -20,7 +22,9 @@ export const firebaseConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-    FormComponent
+    FormComponent,
+    CardComponent,
+    StatusComponent
   ],
   imports: [
     BrowserModule,

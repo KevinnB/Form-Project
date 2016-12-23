@@ -10,10 +10,10 @@ import { cleansedModel } from '../shared/cleansed.model';
 export class FormService {
   cleanup: cleansedModel = new cleansedModel();
 
-  constructor() { }
+  constructor(private af: AngularFire) { }
 
-  getForms(af: AngularFire): FirebaseListObservable<Array<Form>>{ 
-    return af.database
+  getForms(): FirebaseListObservable<Array<Form>>{ 
+    return this.af.database
       .list('/Forms')
       .map((items) => {
         return items.map( item => {
@@ -22,15 +22,15 @@ export class FormService {
       }) as FirebaseListObservable<Array<Form>>;
   }
 
-  getForm(af: AngularFire, key:String): FirebaseListObservable<Form> {
-    return af.database.object('/Forms/' + key)
+  getForm(key:String): FirebaseListObservable<Form> {
+    return this.af.database.object('/Forms/' + key)
       .map((item) => {
           return new Form(item.name, item.created, item.creator, item.dueDate, item.$key, item.status);
       }) as FirebaseListObservable<Form>;
   }
-  addForm(af: AngularFire, data: Form): String {
+  addForm(data: Form): String {
     var model = this.cleanup.cleanse(data);
     console.log(model);
-    return af.database.list('/Forms').push(model).key;
+    return this.af.database.list('/Forms').push(model).key;
   }
 }

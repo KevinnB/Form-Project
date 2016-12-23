@@ -24,7 +24,7 @@ export class PageFormComponent implements OnInit {
 
   constructor(af: AngularFire, 
               private fs: FormService) {
-    this.items = fs.getForms(af);
+    this.items = fs.getForms();
   }
 
   selectItem (item: Form) {

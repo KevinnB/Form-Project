@@ -17,6 +17,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { PageHomeComponent } from './home/home.component';
 import { PageFormComponent } from './form/form.component';
 import { PageNotAuthorizedComponent } from './not-authorized/not-authorized.component';
+import { PageLoginComponent } from './login/login.component';
 // Components
 import { StatusComponent } from './status/status.component';
 
@@ -43,9 +44,12 @@ const appRoutes: Routes = [
     canActivate: [ AuthGuard ]
   },
   {
+    path: 'login',
+    component: PageLoginComponent
+  },
+  {
     path: 'not-authorized',
-    component: PageNotAuthorizedComponent,
-    canActivate: [ AuthGuard ]
+    component: PageNotAuthorizedComponent
   },
   { path: '',
     redirectTo: '/home',
@@ -63,7 +67,8 @@ const appRoutes: Routes = [
     PageFormComponent,
     PageNotFoundComponent,
     PageHomeComponent,
-    PageNotAuthorizedComponent  ],
+    PageNotAuthorizedComponent,
+    PageLoginComponent  ],
   imports: [
     //MaterialModule.forRoot(),
     NgbModule.forRoot(),

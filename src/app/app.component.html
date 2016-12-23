@@ -29,9 +29,9 @@
         <li ngbDropdown class="d-inline-block">
           <a href="javascript:void(0)" id="dropdown-account" ngbDropdownToggle>{{userName}}&nbsp;<i class="fa fa-caret-down"></i></a>
           <ul class="dropdown-menu" aria-labelledby="dropdown-account">
-            <li class="dropdown-item">Action - 1</li>
-            <li class="dropdown-item">Another Action</li>
-            <li class="dropdown-item">Something else is here</li>
+            <li class="dropdown-item"><a routerLink="/profile">Profile</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-item"><a href="javascript:void(0);" (click)="logout()">Logout</a></li>
           </ul>
         </li>
       </ul>

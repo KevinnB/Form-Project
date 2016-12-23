@@ -1,8 +1,29 @@
 <div class="container-fluid">
-  <div class="jumbotron">
-    <h1>
-      {{title}}
-    </h1>
-    <p class="lead">It Woks</p>
+
+  <h1 *ngIf="loading">Loading</h1>
+
+  <div *ngFor="let item of items | async" class="panel panel-default">
+    <div class="panel-heading">
+      {{item.name}}
+    </div>
+    <div class="panel-body">
+
+      <form #modelForm="ngForm" (ngSubmit)="submitForm(modelForm.value, modelForm.valid)" novalidate>
+
+        <!--name-->
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="form-control" name="name" [(ngModel)]="item.name" #name required minlength="5">
+          <small [hidden]="name.valid || (name.pristine && !f.submitted)">
+            Name is required (minimum 5 characters).
+          </small>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary" [disabled]="!modelForm.form.valid">Save</button>
+      </form>
+
+      {{item | json}}
+    </div>
   </div>
 </div>

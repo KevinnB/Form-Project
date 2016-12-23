@@ -1,36 +1,49 @@
-<div class="container-fluid">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>
-        </th>
-        <th>Name</th>
-        <th>Created</th>
-        <th>Created By</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of items | async">
-        <td>
-          <button type="button" class="btn btn-xs btn-default" (click)="selectItem(item)">
-            <i class="fa fa-fw" [ngClass]="{'fa-check': item.selected}"></i>
-          </button>
-        </td>
-        <td>
-          {{item.name}}
-        </td>
-        <td>
-          {{item.created | date}}
-        </td>
-        <td>
-          {{item.creator}}
-        </td>
-        <td>
-          {{item.statusHR}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li routerLinkActive="active"><a routerLink="/home">Home</a></li>
+        <li routerLinkActive="active"><a routerLink="/forms">Forms</a></li>
+        <li ngbDropdown class="d-inline-block">
+          <a href="javascript:void(0)" id="dropdownMenu1" ngbDropdownToggle>Dropdown&nbsp;<i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li class="dropdown-item">Action - 1</li>
+            <li class="dropdown-item">Another Action</li>
+            <li class="dropdown-item">Something else is here</li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li ngbDropdown class="d-inline-block">
+          <a href="javascript:void(0)" id="dropdown-account" ngbDropdownToggle>{{userName}}&nbsp;<i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" aria-labelledby="dropdown-account">
+            <li class="dropdown-item">Action - 1</li>
+            <li class="dropdown-item">Another Action</li>
+            <li class="dropdown-item">Something else is here</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container-fluid -->
+</nav>
+
+<div class="container-fluid">
+  <nav>
+
+  </nav>
+  <router-outlet></router-outlet>
 </div>

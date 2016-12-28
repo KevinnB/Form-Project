@@ -7,11 +7,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { AuthGuard } from './auth/auth.service';
-import { AngularFireModule } from 'angularfire2';
+import { AuthGuard } from './shared/auth.service';
+import { AngularFireModule, AuthMethods } from 'angularfire2';
 
 // Root
 import { AppComponent } from './app.component';
+import { ApplicationSettings } from './shared/appSettings.model';
 
 // Pages
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -91,10 +92,13 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig, {
+      method: AuthMethods.Popup
+    })
   ],
   providers: [
-    AuthGuard
+    AuthGuard,
+    ApplicationSettings
   ],
   bootstrap: [
     AppComponent

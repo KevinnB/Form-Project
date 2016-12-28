@@ -8,14 +8,18 @@ import { AngularFire } from 'angularfire2';
 
 @Injectable()
 export class AuthGuard implements CanActivate{
-  public allowed: boolean;
+  public user: Object;
 
-  constructor(private af: AngularFire, private router: Router) { }
+  constructor(private af: AngularFire, 
+              private router: Router) { 
+                this.user = null;
+              }
 
   canActivate(route: ActivatedRouteSnapshot, 
               state: RouterStateSnapshot): Observable<boolean> {
+
     return this.af.auth.map((auth) =>  {
-      console.log(auth);
+      this.user = auth;
       if(auth == null) {
         this.router.navigate(['/not-authorized']);
         return false;

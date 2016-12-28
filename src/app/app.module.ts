@@ -12,14 +12,20 @@ import { AngularFireModule } from 'angularfire2';
 
 // Root
 import { AppComponent } from './app.component';
+
 // Pages
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PageHomeComponent } from './home/home.component';
-import { PageFormComponent } from './form/form.component';
+
+import { PageFormListComponent } from './form/list/formList.component';
+import { PageFormAddComponent } from './form/add/formAdd.component';
+
 import { PageNotAuthorizedComponent } from './not-authorized/not-authorized.component';
 import { PageLoginComponent } from './login/login.component';
+
 // Components
 import { StatusComponent } from './status/status.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 // Must export the config
@@ -40,7 +46,12 @@ const appRoutes: Routes = [
   },
   {
     path: 'forms',
-    component: PageFormComponent,
+    component: PageFormListComponent,
+    canActivate: [ AuthGuard ]
+  },
+  {
+    path: 'profile',
+    component: UserProfileComponent,
     canActivate: [ AuthGuard ]
   },
   {
@@ -64,11 +75,14 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     StatusComponent,
-    PageFormComponent,
+    PageFormListComponent,
+    PageFormAddComponent,
     PageNotFoundComponent,
     PageHomeComponent,
     PageNotAuthorizedComponent,
-    PageLoginComponent  ],
+    PageLoginComponent,
+    UserProfileComponent  
+    ],
   imports: [
     //MaterialModule.forRoot(),
     NgbModule.forRoot(),

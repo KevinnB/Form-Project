@@ -5,20 +5,18 @@ import { Status } from '../status/status.model';
 export class Form extends IFireBase{
     name: String;
     status: Number;
-    statusHR: String;
-    created: Number;
+    _statusHR: String;
     creator: String;
     dueDate: Number;
     Groups: Array<KeyValue>;
     externalEndpoint: Object;
 
-    constructor(name:String, created:Number, creator:String, dueDate?: Number, id?:String, status?: Status) {
-        super(id);
+    constructor(name:String, created:Number, creator:String, updated:Number, dueDate?: Number, id?:String, status?: Status) {
+        super(created, creator, updated,  id);
         this.status = status || Status.Created;
-        this.statusHR = Status[status] || Status[1];
+        this._statusHR = Status[status] || Status[1];
         this.name = name;
-        this.created = created;
-        this.creator = creator; 
+        
         this.dueDate = dueDate;
     }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { ApplicationSettings } from '../shared/appSettings.model';
 import { AuthGuard } from '../shared/auth.service';
@@ -12,44 +12,30 @@ import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class PageLoginComponent {
+export class PageLoginComponent implements OnInit {
   allowedAuthProviders: Array<AuthProviders>;
+  returnUrl: String;
 
   constructor (private af: AngularFire, 
                private router: Router,
+               private route: ActivatedRoute,
                private settings: ApplicationSettings,
-               private auth: AuthGuard) {
+               private auth: AuthGuard) { }
 
-  this.allowedAuthProviders = settings.AllowedAuthProviders;
+    ngOnInit() {
+      this.auth.logout();
+      this.allowedAuthProviders = this.settings.AllowedAuthProviders;
+      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+    }
 
-  af.auth.map((auth) =>  {
-      console.log(auth);
-      if(auth !== null) {
-        this.router.navigate(['/home']);
-        return false;
-      }
-    }).first();
-}
+    login(providerId: String) {
+      var self = this;
 
-  getProviderHR(providerId: String){
-    for ( var key in AuthProviders ) {
-      if( AuthProviders[key] === providerId ) {
-          return key;
-        }
-    };
-  }
-
-  login(providerId: String) {
-    var self = this;
-    var providerKey = 'Google';
-
-    providerKey = this.getProviderHR(providerId);
-
-    this.af.auth.login({
-      provider: AuthProviders[providerKey],
-      method: AuthMethods.Popup
-    }).then(function(success) {
-        self.router.navigate(['/home']);
-    });
-  }
+      this.auth.login(providerId)
+      .then(function(success) {
+        self.router.navigate([self.returnUrl]);
+      }, function (error) {
+        console.error("Error logging in: ", error);
+      })
+    }
 }

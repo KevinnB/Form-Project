@@ -1,6 +1,6 @@
 <div class="container">
-  <div class="text-center">
-    <h1>Login</h1>
-    <button (click)="login(provider)" *ngFor="let provider of allowedAuthProviders" class="btn btn-lg btn-default">{{ getProviderHR(provider) }} Login</button>
-  </div>
+    <div class="text-center">
+        <h1>Login</h1>
+        <button (click)="login(provider)" *ngFor="let provider of allowedAuthProviders" class="btn btn-lg btn-default">{{ auth.getProviderHR(provider) }} Login</button>
+    </div>
 </div>

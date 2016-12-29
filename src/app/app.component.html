@@ -1,49 +1,49 @@
-<nav class="navbar navbar-default" *ngIf="user">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+<nav class="navbar navbar-default" *ngIf="auth.user">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Brand</a>
-    </div>
+            <a class="navbar-brand" href="#">Brand</a>
+        </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li routerLinkActive="active"><a routerLink="/home">Home</a></li>
-        <li routerLinkActive="active"><a routerLink="/forms">Forms</a></li>
-        <li ngbDropdown class="d-inline-block">
-          <a href="javascript:void(0)" id="dropdownMenu1" ngbDropdownToggle>Dropdown&nbsp;<i class="fa fa-caret-down"></i></a>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li class="dropdown-item">Action - 1</li>
-            <li class="dropdown-item">Another Action</li>
-            <li class="dropdown-item">Something else is here</li>
-          </ul>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li ngbDropdown class="d-inline-block">
-          <a href="javascript:void(0)" id="dropdown-account" ngbDropdownToggle>{{user.displayName}}&nbsp;<i class="fa fa-caret-down"></i></a>
-          <ul class="dropdown-menu" aria-labelledby="dropdown-account">
-            <li class="dropdown-item"><a routerLink="/profile">Profile</a></li>
-            <li class="divider"></li>
-            <li class="dropdown-item"><a href="javascript:void(0);" (click)="logout()">Logout</a></li>
-          </ul>
-        </li>
-      </ul>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li routerLinkActive="active"><a routerLink="/home">Home</a></li>
+                <li routerLinkActive="active"><a routerLink="/forms">Forms</a></li>
+                <li ngbDropdown class="d-inline-block">
+                    <a href="javascript:void(0)" id="dropdownMenu1" ngbDropdownToggle>Dropdown&nbsp;<i class="fa fa-caret-down"></i></a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li class="dropdown-item">Action - 1</li>
+                        <li class="dropdown-item">Another Action</li>
+                        <li class="dropdown-item">Something else is here</li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ngbDropdown class="d-inline-block">
+                    <a href="javascript:void(0)" id="dropdown-account" ngbDropdownToggle>{{auth.user.displayName}}&nbsp;<i class="fa fa-caret-down"></i></a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown-account">
+                        <li class="dropdown-item"><a routerLink="/profile">Profile</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-item"><a href="javascript:void(0);" (click)="logout()">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
     </div>
-    <!-- /.navbar-collapse -->
-  </div>
-  <!-- /.container-fluid -->
+    <!-- /.container-fluid -->
 </nav>
 
 <div class="container-fluid">
-  <nav>
+    <nav>
 
-  </nav>
-  <router-outlet></router-outlet>
+    </nav>
+    <router-outlet></router-outlet>
 </div>

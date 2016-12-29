@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthGuard } from './shared/auth.service';
+import { AuthService } from './shared/auth.service';
 
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
 
@@ -17,7 +17,7 @@ export class AppComponent {
 
 constructor (private af: AngularFire, 
              private router: Router,
-             private auth: AuthGuard) {
+             private auth: AuthService) {
             
         console.log("App")
           af.auth.subscribe((auth) => {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ApplicationSettings } from '../shared/appSettings.model';
-import { AuthGuard } from '../shared/auth.service';
+import { AuthService } from '../shared/auth.service';
 
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
 
@@ -20,7 +20,7 @@ export class PageLoginComponent implements OnInit {
                private router: Router,
                private route: ActivatedRoute,
                private settings: ApplicationSettings,
-               private auth: AuthGuard) { }
+               private auth: AuthService) { }
 
     ngOnInit() {
       this.auth.logout();

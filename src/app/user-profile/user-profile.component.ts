@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthGuard } from '../shared/auth.service';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -10,7 +10,7 @@ import { AuthGuard } from '../shared/auth.service';
 export class UserProfileComponent implements OnInit {
   user: any;
 
-  constructor(private auth: AuthGuard) { 
+  constructor(private auth: AuthService) { 
     this.user = auth.user;
   }
 

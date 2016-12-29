@@ -8,29 +8,13 @@ import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { AngularFire, AuthMethods, AuthProviders } from 'angularfire2';
 
 @Injectable()
-export class AuthGuard implements CanActivate{
+export class AuthService{
   public user: Object;
 
   constructor(private af: AngularFire, 
               private router: Router) { 
                 this.user = null;
               }
-
-  canActivate(route: ActivatedRouteSnapshot, 
-              state: RouterStateSnapshot): Observable<boolean> {
-
-    return this.af.auth.map((auth) =>  {
-      if(auth == null) {
-        this.user = null;
-        console.log(this.router.url, window.location);
-        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
-        return false;
-      } else {
-        this.user = auth.auth;
-        return true;
-      }
-    }).first()
-  }
 
   getProviderHR(providerId: String){
     for ( var key in AuthProviders ) {

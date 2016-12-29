@@ -7,7 +7,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { AuthGuard } from './shared/auth.service';
+import { AuthService } from './shared/auth.service';
+import { AuthGuardLoggedIn } from './shared/guard.loggedIn';
+
 import { AngularFireModule, AuthMethods } from 'angularfire2';
 
 // Root
@@ -43,17 +45,17 @@ const appRoutes: Routes = [
   {
     path: 'home',
     component: PageHomeComponent,
-    canActivate: [ AuthGuard ]
+    canActivate: [ AuthGuardLoggedIn ]
   },
   {
     path: 'forms',
     component: PageFormListComponent,
-    canActivate: [ AuthGuard ]
+    canActivate: [ AuthGuardLoggedIn ]
   },
   {
     path: 'profile',
     component: UserProfileComponent,
-    canActivate: [ AuthGuard ]
+    canActivate: [ AuthGuardLoggedIn ]
   },
   {
     path: 'login',
@@ -97,7 +99,8 @@ const appRoutes: Routes = [
     })
   ],
   providers: [
-    AuthGuard,
+    AuthService,
+    AuthGuardLoggedIn,
     ApplicationSettings
   ],
   bootstrap: [

@@ -38,6 +38,7 @@ export class AuthService{
 
   createNewDbUser (uid: string) {
     return this.af.database.list('Users').$ref.ref.child(uid).set({
+      photoUrl: this.user.photoURL || 'http://thecatapi.com/api/images/get?format=src&type=gif',
       joined: Date.now(),
       updated: Date.now(),
       roles: {

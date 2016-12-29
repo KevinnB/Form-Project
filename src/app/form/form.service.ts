@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
 
+import { AuthService } from '../shared/auth.service';
+
 import { Form } from './form.model';
 import { cleansedModel } from '../shared/cleansed.model';
 
@@ -11,7 +13,9 @@ export class FormService {
   cleanup: cleansedModel = new cleansedModel();
   forms: FirebaseListObservable<Array<Form>>;
 
-  constructor(private af: AngularFire) { 
+  constructor(private af: AngularFire,
+              private auth: AuthService) { 
+
     this.forms = this.getForms();
   }
 

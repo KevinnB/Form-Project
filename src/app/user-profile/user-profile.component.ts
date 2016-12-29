@@ -9,9 +9,12 @@ import { AuthService } from '../shared/auth.service';
 })
 export class UserProfileComponent implements OnInit {
   user: any;
+  dbUser: any;
+
 
   constructor(private auth: AuthService) { 
     this.user = auth.user;
+    this.dbUser = auth.dbUser;
   }
 
   ngOnInit() {

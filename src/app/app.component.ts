@@ -23,6 +23,10 @@ constructor (private af: AngularFire,
           af.auth.subscribe((auth) => {
             if(!auth) {
               this.router.navigate(['/login']);
+            } else {
+              if(!this.auth.dbUser) {
+                this.auth.getUserRoles(auth.uid);
+              }
             }
           });
   }

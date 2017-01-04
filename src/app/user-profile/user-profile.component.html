@@ -6,14 +6,10 @@
       <img [src]="user.photoURL" alt="User Photo" class="border-rounded" />
       <br />
       <br />
-      <div *ngFor="let provider of allowedAuthProviders">
-        <div *ngIf="user.hasProvider(provider)">
-          <i class="fa fa-check"></i>&nbsp;{{ auth.getProviderHR(provider) }}
-        </div>
-        <div *ngIf="!user.hasProvider(provider)">
-          <button class="btn btn-lg btn-default">Link {{ auth.getProviderHR(provider) }} Account</button>
-        </div>
-      </div>
+      <button *ngFor="let provider of allowedAuthProviders" [disabled]="user.hasProvider(provider)" [ngClass]="{'btn-success': user.hasProvider(provider), 'btn-default': !user.hasProvider(provider)}" (click)="linkAccount(provider)" class="btn btn-lg ">
+            <i class="fa" [ngClass]="{'fa-check': user.hasProvider(provider), 'fa-close': !user.hasProvider(provider)}"></i>&nbsp;
+            {{ auth.getProviderHR(provider) }}
+        </button>
       <br />
       <br />
       <pre class="text-left">{{ user | json }}</pre>

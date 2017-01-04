@@ -17,9 +17,12 @@ export class UserProfileComponent implements OnInit {
 
   constructor(private auth: AuthService,
               private settings: ApplicationSettings) {
-    this.auth.getAuthProvider("terst");
     this.user = auth.user;
     this.allowedAuthProviders = this.settings.AllowedAuthProviders;
+  }
+
+  linkAccount(provider: Number) {
+    console.warn("Need to link the provider link method", provider);
   }
 
   ngOnInit() {

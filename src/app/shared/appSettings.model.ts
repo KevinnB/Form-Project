@@ -2,7 +2,8 @@ import { AuthProviders } from 'angularfire2';
 
 export class ApplicationSettings {
     AllowedAuthProviders: Array<AuthProviders> = [
-        AuthProviders.Google
+        AuthProviders.Google,
+        AuthProviders.Facebook
     ];
     
 }

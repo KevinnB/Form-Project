@@ -41,6 +41,37 @@ export class AuthService{
     };
   }
 
+  getAuthProvider(providerId: string) {
+    switch(providerId) {
+      case "Github": 
+      case "github.com":
+        return {
+          fb_provider:  new firebase.auth.GithubAuthProvider(),
+          af_provider: AuthProviders.Github
+        };
+      case "Twitter": 
+      case "twitter.com":
+        return {
+          fb_provider:  new firebase.auth.TwitterAuthProvider(),
+          af_provider: AuthProviders.Twitter
+        };
+      case "Facebook": 
+      case "facebook.com":
+        return {
+          fb_provider:  new firebase.auth.FacebookAuthProvider(),
+          af_provider: AuthProviders.Facebook
+        };
+      case "Google": 
+      case"google.com":
+        return {
+          fb_provider:  new firebase.auth.GoogleAuthProvider(),
+          af_provider: AuthProviders.Google
+        };
+      default:
+        return null;
+    }
+  }
+
   getUser() : Observable<any> {
     let combined = this.af.auth
           // Filter out unauthenticated states
@@ -53,7 +84,7 @@ export class AuthService{
             }
           })
           .map((user) => {
-            this.user = new AuthUser(auth.auth, user);
+            this.user = new AuthUser(auth.auth, user, this.getAuthProvider);
             return this.user;
           }));
           

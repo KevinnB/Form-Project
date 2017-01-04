@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from '../shared/auth.service';
 
+import { ApplicationSettings } from '../shared/appSettings.model';
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -10,10 +12,14 @@ import { AuthService } from '../shared/auth.service';
 export class UserProfileComponent implements OnInit {
   __userSubscription: Subscription;
   user: any;
+  allowedAuthProviders: any;
 
 
-  constructor(private auth: AuthService) { 
+  constructor(private auth: AuthService,
+              private settings: ApplicationSettings) {
+    this.auth.getAuthProvider("terst");
     this.user = auth.user;
+    this.allowedAuthProviders = this.settings.AllowedAuthProviders;
   }
 
   ngOnInit() {

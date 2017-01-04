@@ -1,2 +1,22 @@
-<h1>Profile</h1>
-<pre>{{ user | json }}</pre>
+<div class="row">
+  <div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+    <div *ngIf="user">
+      <h1>{{ user.displayName }}</h1>
+      <h4 class="text-muted">{{ user.joined | date:'mediumDate' }}</h4>
+      <img [src]="user.photoURL" alt="User Photo" class="border-rounded" />
+      <br />
+      <br />
+      <div *ngFor="let provider of allowedAuthProviders">
+        <div *ngIf="user.hasProvider(provider)">
+          <i class="fa fa-check"></i>&nbsp;{{ auth.getProviderHR(provider) }}
+        </div>
+        <div *ngIf="!user.hasProvider(provider)">
+          <button class="btn btn-lg btn-default">Link {{ auth.getProviderHR(provider) }} Account</button>
+        </div>
+      </div>
+      <br />
+      <br />
+      <pre class="text-left">{{ user | json }}</pre>
+    </div>
+  </div>
+</div>

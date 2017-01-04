@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
-import { MaterialModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AuthService } from './shared/auth.service';

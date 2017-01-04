@@ -1,11 +1,11 @@
 export class IFireBase {
-    $key: String;
+    $key: string;
     _selected: Boolean;
     created: Number;
     updated: Number;
-    creator: String; 
+    creator: string; 
 
-    constructor(created: Number, creator: String, updated:Number, id?: String) { 
+    constructor(created: Number, creator: string, updated:Number, id?: string) { 
         if( id ) {
             this.$key = id; 
         }

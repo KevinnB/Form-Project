@@ -14,7 +14,7 @@ import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 
 })
 export class PageLoginComponent implements OnInit {
   allowedAuthProviders: Array<AuthProviders>;
-  returnUrl: String;
+  returnUrl: string;
 
   constructor (private af: AngularFire, 
                private router: Router,
@@ -28,7 +28,7 @@ export class PageLoginComponent implements OnInit {
       this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
     }
 
-    login(providerId: String) {
+    login(providerId: string) {
       var self = this;
 
       this.auth.login(providerId)

@@ -30,7 +30,7 @@ export class FormService {
       }) as FirebaseListObservable<Array<Form>>;
   }
 
-  getForm(key:String): FirebaseListObservable<Form> {
+  getForm(key:string): FirebaseListObservable<Form> {
     var self = this;
     return this.af.database.object('/Forms/' + key)
       .map((item) => {
@@ -38,13 +38,13 @@ export class FormService {
       }) as FirebaseListObservable<Form>;
   }
 
-  addForm(data: Form): String {
+  addForm(data: Form): string {
     var model = this.cleanup.cleanse(data);
     console.log("Add", model);
     return this.af.database.list('/Forms').push(model).key;
   }
 
-  removeForm(key: String) {
+  removeForm(key: string) {
     return this.af.database.object('/Forms/' + key).remove();
   }
 

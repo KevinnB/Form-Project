@@ -1,23 +1,39 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/filter';
 import * as firebase from 'firebase';
-import { Observable } from 'rxjs/Observable';
 
-import { Injectable, Inject  } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscribable } from 'rxjs/Observable';
+
+import { AuthUser } from './authUser.model';
+
+import { Injectable, Inject } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AngularFire, AuthMethods, FirebaseAuthState, AuthProviders } from 'angularfire2';
 
 @Injectable()
 export class AuthService{
-  public user: firebase.User;
-  public dbUser: any;
+  public user: AuthUser;
+  public loading: boolean;
+  public message: string;
 
   constructor(private af: AngularFire, 
               private router: Router) { 
                 this.user = null;
+                this.loading = false;
+                this.message = "";
               }
 
-  getProviderHR(providerId: string){
+  getProviderHR(providerId: string) {
     for ( var key in AuthProviders ) {
       if( AuthProviders[key] === providerId ) {
           return key;
@@ -25,20 +41,36 @@ export class AuthService{
     };
   }
 
-  getUserRoles(uid: string) {
-    return this.af.database.object('Users/' + uid).subscribe(user => {
-      if(user.$exists()) {
-        this.dbUser = user;
-        return this.dbUser;
-      } else {
-        return this.createNewDbUser(uid);
-      }
-    })
+  getUser() : Observable<any> {
+    let combined = this.af.auth
+          // Filter out unauthenticated states
+        .filter(Boolean)
+          // Switch to an observable that emits the user.
+        .switchMap((auth) => this.af.database.object('Users/' + auth.uid)
+          .do((user) => { 
+            if(!user.$exists()) {
+              return this.createNewDbUser(auth);
+            }
+          })
+          .map((user) => {
+            this.user = new AuthUser(auth.auth, user);
+            return this.user;
+          }));
+          
+          // Switch to an observable that emits the conversation and combine it
+          // with the user.
+          //.switchMap((user) => this.af.database
+          //    .list('/conversations/' + user.conversationid)
+          //    .map((conversation) => ({ user, conversation }))
+          //);
+          // The resultant observable will emit objects that have user and
+          // conversation properties.
+        return combined;
   }
 
-  createNewDbUser (uid: string) {
-    return this.af.database.list('Users').$ref.ref.child(uid).set({
-      photoUrl: this.user.photoURL || 'http://thecatapi.com/api/images/get?format=src&type=gif',
+  createNewDbUser (user: any) {
+    return this.af.database.list('Users').$ref.ref.child(user.uid).set({
+      photoUrl: user.auth.photoURL || 'http://thecatapi.com/api/images/get?format=src&type=gif',
       joined: Date.now(),
       updated: Date.now(),
       roles: {
@@ -55,7 +87,7 @@ export class AuthService{
       provider: AuthProviders[providerKey],
       method: AuthMethods.Popup
     }).then(function(success) {
-        self.getUserRoles(success.uid);
+        self.getUser();
         return success;
     }, function (failure) {
         return failure;

@@ -1,4 +1,4 @@
 export class KeyValue {
-    Key: String;
+    Key: string;
     Value?: Boolean;
 }

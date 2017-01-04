@@ -11,10 +11,8 @@ import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 
   styleUrls: ['./app.component.scss'],
   providers: []
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   __userSubscription: Subscription;
-  userName: string;
-  photoURL: string;
 
   constructor (private af: AngularFire, 
              private router: Router,
@@ -35,5 +33,5 @@ export class AppComponent {
   }
   ngOnDestroy() {
       this.__userSubscription.unsubscribe();
-   } 
+   }
 }

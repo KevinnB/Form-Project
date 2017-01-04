@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from '../shared/auth.service';
 
 @Component({
@@ -8,16 +8,18 @@ import { AuthService } from '../shared/auth.service';
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
+  __userSubscription: Subscription;
   user: any;
-  dbUser: any;
 
 
   constructor(private auth: AuthService) { 
     this.user = auth.user;
-    this.dbUser = auth.dbUser;
   }
 
   ngOnInit() {
+    if(!this.user) {
+      this.__userSubscription = this.auth.getUser()
+        .subscribe((user) => { this.user = user});
+    }
   }
-
 }

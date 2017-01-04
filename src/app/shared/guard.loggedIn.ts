@@ -1,7 +1,5 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/toPromise';
-
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from './auth.service';
@@ -20,16 +18,13 @@ export class AuthGuardLoggedIn implements CanActivate{
   canActivate(route: ActivatedRouteSnapshot, 
               state: RouterStateSnapshot): Observable<boolean> {
 
-  let notificationArrayStream = this.auth.getUser()
-    .map((auth) =>{
-        if(!auth) {
-          this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
-          return false;
-        } else {
-          return true;
-        }
-    });
-
-    return notificationArrayStream;
+    return this.af.auth.map((auth) =>  {
+      if(auth == null) {
+        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
+        return false;
+      } else {
+        return true;
+      }
+    }).first();
   }
 }

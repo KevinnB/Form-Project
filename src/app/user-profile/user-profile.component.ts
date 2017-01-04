@@ -21,7 +21,7 @@ export class UserProfileComponent implements OnInit {
     this.allowedAuthProviders = this.settings.AllowedAuthProviders;
   }
 
-  linkAccount(provider: Number) {
+  linkAccount(provider: string) {
     this.auth.linkAccount(provider);
   }
 

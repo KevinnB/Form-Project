@@ -27,10 +27,12 @@ export class AuthService{
   public message: string;
 
   constructor(private af: AngularFire, 
-              private router: Router) { 
+              private route: Router) { 
+
                 this.user = null;
                 this.loading = false;
                 this.message = "";
+                
               }
 
   getProviderHR(providerId: string) {
@@ -86,7 +88,13 @@ export class AuthService{
           .map((user) => {
             this.user = new AuthUser(auth.auth, user, this.getAuthProvider);
             return this.user;
-          }));
+          }))
+          .catch((err) => {
+            console.log("Caught user error. Logged out so doing so.")
+            //Return an empty Observable which gets collapsed in the output
+            this.logout();
+            return Observable.of();
+          });
           
           // Switch to an observable that emits the conversation and combine it
           // with the user.
@@ -153,5 +161,6 @@ export class AuthService{
   logout() {
     this.user = null;
     this.af.auth.logout();
+    this.route.navigate(['/login']);
   }
 }

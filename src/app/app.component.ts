@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
              private auth: AuthService) { }
 
   logout() {
-    this.__userSubscription.unsubscribe();
     this.auth.logout();
   }
 

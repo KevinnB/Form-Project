@@ -6,7 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/onNext';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/filter';
 import * as firebase from 'firebase';
@@ -91,9 +91,7 @@ export class AuthService{
           }))
           .catch((err) => {
             console.log("Caught user error. Logged out so doing so.")
-            //Return an empty Observable which gets collapsed in the output
-            this.logout();
-            return Observable.of();
+            return Observable.of(this.user);
           });
           
           // Switch to an observable that emits the conversation and combine it
@@ -151,7 +149,7 @@ export class AuthService{
       provider: AuthProviders[providerKey],
       method: AuthMethods.Popup
     }).then(function(success) {
-        self.getUser();
+        self.getUser().first();
         return success;
     }, function (failure) {
         return failure;

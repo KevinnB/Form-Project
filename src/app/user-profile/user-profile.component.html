@@ -6,10 +6,12 @@
       <img [src]="user.photoURL" alt="User Photo" class="border-rounded" />
       <br />
       <br />
-      <button *ngFor="let provider of allowedAuthProviders" [disabled]="user.hasProvider(provider)" [ngClass]="{'btn-success': user.hasProvider(provider), 'btn-default': !user.hasProvider(provider)}" (click)="linkAccount(provider)" class="btn btn-lg ">
-            <i class="fa" [ngClass]="{'fa-check': user.hasProvider(provider), 'fa-close': !user.hasProvider(provider)}"></i>&nbsp;
-            {{ auth.getProviderHR(provider) }}
+      <div class="login-button-list">
+        <button class="btn btn-lg" *ngFor="let provider of allowedAuthProviders" [disabled]="user.hasProvider(provider)" [ngClass]="{'btn-success': user.hasProvider(provider), 'btn-default': !user.hasProvider(provider)}" (click)="linkAccount(provider)">
+                <i class="fa" [ngClass]="{'fa-check': user.hasProvider(provider), 'fa-close': !user.hasProvider(provider)}"></i>&nbsp;
+                {{ auth.getProviderHR(provider) }}
         </button>
+      </div>
       <br />
       <br />
       <pre class="text-left">{{ user | json }}</pre>

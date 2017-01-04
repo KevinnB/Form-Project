@@ -22,7 +22,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   linkAccount(provider: Number) {
-    console.warn("Need to link the provider link method", provider);
+    this.auth.linkAccount(provider);
   }
 
   ngOnInit() {

@@ -110,6 +110,31 @@ export class AuthService{
     });
   }
 
+  linkAccount(providerId: string) {
+    let at = AuthProviders;
+    let providerHR = AuthProviders[providerId];
+    let FB_provider = this.getAuthProvider(providerHR);
+
+    console.log(this.af.auth, providerId, at[providerId]);
+
+    firebase.auth().currentUser.linkWithPopup(FB_provider.fb_provider)
+    .then(function(result) {
+      if (result.credential) {
+        console.log("Success", result);
+      }
+    }).catch(function(error) {
+      console.log("Failed", error);
+    });
+  }
+
+  unlinkAccount(providerId: string) {
+    firebase.auth().currentUser.unlink(providerId).then(function(result) {
+      console.log("Success", result);
+    }, function(error) {
+      console.log("Failed", error);
+    });
+  }
+
   login (providerId: string, userName?: string, password?: string) {
     var providerKey = this.getProviderHR(providerId);
     var self = this;

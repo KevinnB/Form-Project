@@ -102,10 +102,7 @@ export class AuthService implements OnInit {
   userObservableConverter() : Observable<any> {
     let combined = this.af.auth
           // Filter out unauthenticated states
-        .filter((auth) => {
-            console.log("auth", !!auth);
-            return !!auth;
-        })
+        .filter((auth) => { return !!auth; })
           // Switch to an observable that emits the user.
         .switchMap((auth) => this.af.database.object('Users/' + auth.uid)
           .do((user) => { 
@@ -122,6 +119,7 @@ export class AuthService implements OnInit {
 
   createNewDbUser (user: FirebaseAuthState) {
     return this.af.database.list('Users').$ref.ref.child(user.uid).set({
+      displayName: user.auth.displayName,
       photoUrl: user.auth.photoURL || 'http://thecatapi.com/api/images/get?format=src&type=gif',
       joined: Date.now(),
       updated: Date.now(),

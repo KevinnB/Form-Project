@@ -38,7 +38,6 @@ export class FormService {
               .object(`/Forms/${key}`)
               .first()
               .map((dbForm) => {
-                console.log('Accessable Form:', dbForm);
                 return self.hydrateForm(dbForm);
               })
             )
@@ -67,6 +66,6 @@ export class FormService {
 
   hydrateForm(data:any): Form {
     // This translates a firebase object into a typescript object
-    return new Form(data.name, data.created, data.creator, data.updated, data.dueDate, data.$key, data.status);
+    return new Form(data.name, data.created, data.creator, data.creatorName, data.updated, data.dueDate, data.$key, data.status);
   }
 }

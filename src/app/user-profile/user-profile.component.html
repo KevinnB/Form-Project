@@ -1,20 +1,20 @@
 <div class="row">
   <div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
-    <div *ngIf="user">
-      <h1>{{ user.displayName }}</h1>
-      <h4 class="text-muted">{{ user.joined | date:'mediumDate' }}</h4>
-      <img [src]="user.photoURL" alt="User Photo" class="border-rounded" />
+    <div *ngIf="user | async">
+      <h1>{{ (user | async)?.displayName }}</h1>
+      <h4 class="text-muted">{{ (user | async)?.joined | date:'mediumDate' }}</h4>
+      <img [src]="(user | async)?.photoURL" alt="User Photo" class="border-rounded" />
       <br />
       <br />
       <div class="login-button-list">
-        <button class="btn btn-lg" *ngFor="let provider of allowedAuthProviders" [disabled]="user.hasProvider(provider)" [ngClass]="{'btn-success': user.hasProvider(provider), 'btn-default': !user.hasProvider(provider)}" (click)="linkAccount(provider)">
-                <i class="fa" [ngClass]="{'fa-check': user.hasProvider(provider), 'fa-close': !user.hasProvider(provider)}"></i>&nbsp;
+        <button class="btn btn-lg" *ngFor="let provider of allowedAuthProviders" [disabled]="(user | async)?.hasProvider(provider)" [ngClass]="{'btn-success': (user | async)?.hasProvider(provider), 'btn-default': !(user | async)?.hasProvider(provider)}" (click)="linkAccount(provider)">
+                <i class="fa" [ngClass]="{'fa-check': (user | async)?.hasProvider(provider), 'fa-close': !(user | async)?.hasProvider(provider)}"></i>&nbsp;
                 {{ auth.getProviderHR(provider) }}
         </button>
       </div>
       <br />
       <br />
-      <pre class="text-left">{{ user | json }}</pre>
+      <pre class="text-left">{{ user | async | json }}</pre>
     </div>
   </div>
 </div>

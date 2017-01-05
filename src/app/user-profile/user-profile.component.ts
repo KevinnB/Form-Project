@@ -1,3 +1,6 @@
+import { AuthProviders } from 'angularfire2/auth';
+import { AuthUser } from '../shared/authUser.model';
+import { Observable } from 'rxjs/Rx';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from '../shared/auth.service';
@@ -9,26 +12,18 @@ import { ApplicationSettings } from '../shared/appSettings.model';
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
 })
-export class UserProfileComponent implements OnInit {
-  __userSubscription: Subscription;
-  user: any;
-  allowedAuthProviders: any;
+export class UserProfileComponent {
+  user: Observable<AuthUser>;
+  allowedAuthProviders: Array<AuthProviders>;
 
 
   constructor(private auth: AuthService,
               private settings: ApplicationSettings) {
-    this.user = auth.user;
+    this.user = auth.getCurrentUser();
     this.allowedAuthProviders = this.settings.AllowedAuthProviders;
   }
 
   linkAccount(provider: string) {
     this.auth.linkAccount(provider);
-  }
-
-  ngOnInit() {
-    if(!this.user) {
-      this.__userSubscription = this.auth.getUser()
-        .subscribe((user) => { this.user = user});
-    }
   }
 }

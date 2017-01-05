@@ -1,0 +1,17 @@
+<h1>Forms - Details</h1>
+
+<template ngbModalContainer></template>
+<template #addFormContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Add Forms</h4>
+  </div>
+  <div class="modal-body">
+    <app-form-add new-form=''></app-form-add>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+  </div>
+</template>

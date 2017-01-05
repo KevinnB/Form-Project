@@ -22,7 +22,7 @@
           </button>
       </td>
       <td>
-        {{item.name}}
+        <a [routerLink]="['/forms', item.$key]">{{item.name}}</a>
       </td>
       <td>
         {{item.created | date:"short"}}

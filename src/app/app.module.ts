@@ -19,6 +19,7 @@ import { ApplicationSettings } from './shared/appSettings.model';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 import { PageFormListComponent } from './form/list/formList.component';
+import { PageFormDetailsComponent } from './form/details/formDetails.component';
 import { PageFormAddComponent } from './form/add/formAdd.component';
 
 import { PageNotAuthorizedComponent } from './not-authorized/not-authorized.component';
@@ -43,6 +44,11 @@ const appRoutes: Routes = [
   {
     path: 'forms',
     component: PageFormListComponent,
+    canActivate: [ AuthGuardLoggedIn ]
+  },
+  {
+    path: 'forms/:id',
+    component: PageFormDetailsComponent,
     canActivate: [ AuthGuardLoggedIn ]
   },
   {
@@ -72,6 +78,7 @@ const appRoutes: Routes = [
     AppComponent,
     StatusComponent,
     PageFormListComponent,
+    PageFormDetailsComponent,
     PageFormAddComponent,
     PageNotFoundComponent,
     PageNotAuthorizedComponent,

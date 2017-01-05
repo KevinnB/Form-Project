@@ -18,7 +18,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class PageFormListComponent {
   forms: FirebaseListObservable<Array<Form>>;
 
-  constructor(private fs: FormService, private ms: NgbModal) {
+  constructor(private fs: FormService, 
+              private ms: NgbModal) {
     this.forms = fs.getForms();
   }
 

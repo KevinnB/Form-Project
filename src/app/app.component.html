@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" *ngIf="auth.user">
+<nav class="navbar navbar-default" *ngIf="user | async">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -28,7 +28,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li ngbDropdown class="d-inline-block">
           <a href="javascript:void(0)" id="dropdown-account" ngbDropdownToggle>
-            <img [src]="auth.user.photoURL" alt="i" class="account-photo border-rounded"> {{auth.user.displayName}}&nbsp;
+            <img [src]="(user | async)?.photoURL" alt="i" class="account-photo border-rounded"> {{ (user | async)?.displayName}}&nbsp;
             <i class="fa fa-caret-down"></i></a>
           <ul class="dropdown-menu" aria-labelledby="dropdown-account">
             <li class="dropdown-item"><a routerLink="/profile">Profile</a></li>
@@ -44,8 +44,5 @@
 </nav>
 
 <div class="container-fluid">
-  <nav>
-
-  </nav>
   <router-outlet></router-outlet>
 </div>

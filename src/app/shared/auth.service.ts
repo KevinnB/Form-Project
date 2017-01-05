@@ -1,3 +1,4 @@
+import { BehaviorSubject, Subscriber } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/toPromise';
@@ -15,24 +16,47 @@ import { Observable, Subscribable } from 'rxjs/Observable';
 
 import { AuthUser } from './authUser.model';
 
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AngularFire, AuthMethods, FirebaseAuthState, AuthProviders } from 'angularfire2';
 
 @Injectable()
-export class AuthService{
-  public user: AuthUser;
+export class AuthService implements OnInit {
+  private _userSubscription: Subscription;
+  private _user: BehaviorSubject<AuthUser> = new BehaviorSubject(null);;
+
   public loading: boolean;
   public message: string;
 
+  ngOnInit() {
+      this._user.next(null);
+      this.loading = false;
+      this.message = "";
+  }
+
   constructor(private af: AngularFire, 
               private route: Router) { 
-
-                this.user = null;
-                this.loading = false;
-                this.message = "";
-                
+                this.loadUser();
               }
+
+
+  getCurrentUser () :Observable<AuthUser> {
+    return this._user.asObservable();
+  }
+
+  loadUser () {
+    this._userSubscription = this.userObservableConverter().subscribe(
+      res => {
+          console.log(res);
+          this._user.next(res);
+      },
+      error => {
+        console.log(error);
+      },
+      () => {
+        console.log("Completed");
+    });
+  }
 
   getProviderHR(providerId: string) {
     for ( var key in AuthProviders ) {
@@ -73,10 +97,13 @@ export class AuthService{
     }
   }
 
-  getUser() : Observable<any> {
+  userObservableConverter() : Observable<any> {
     let combined = this.af.auth
           // Filter out unauthenticated states
-        .filter(Boolean)
+        .filter((auth) => {
+            console.log("auth", !!auth);
+            return !!auth;
+        })
           // Switch to an observable that emits the user.
         .switchMap((auth) => this.af.database.object('Users/' + auth.uid)
           .do((user) => { 
@@ -85,22 +112,9 @@ export class AuthService{
             }
           })
           .map((user) => {
-            this.user = new AuthUser(auth.auth, user, this.getAuthProvider);
-            return this.user;
-          }))
-          .catch((err) => {
-            console.log("Caught user error. Logged out so doing so.")
-            return Observable.of(this.user);
-          });
+            return new AuthUser(auth.auth, user, this.getAuthProvider);
+          }));
           
-          // Switch to an observable that emits the conversation and combine it
-          // with the user.
-          //.switchMap((user) => this.af.database
-          //    .list('/conversations/' + user.conversationid)
-          //    .map((conversation) => ({ user, conversation }))
-          //);
-          // The resultant observable will emit objects that have user and
-          // conversation properties.
         return combined;
   }
 
@@ -148,7 +162,7 @@ export class AuthService{
       provider: AuthProviders[providerKey],
       method: AuthMethods.Popup
     }).then(function(success) {
-        self.getUser().first();
+        self.loadUser();
         return success;
     }, function (failure) {
         return failure;
@@ -156,8 +170,10 @@ export class AuthService{
   }
 
   logout() {
-    this.user = null;
-    this.af.auth.logout();
+    // destroy all firebase refs
+    this._userSubscription.unsubscribe();
+    this.ngOnInit();
     this.route.navigate(['/login']);
+    this.af.auth.logout();
   }
 }

@@ -1,9 +1,12 @@
 import { AuthProviders } from 'angularfire2';
 
 export class ApplicationSettings {
-    AllowedAuthProviders: Array<AuthProviders> = [
+    readonly AllowedAuthProviders: Array<AuthProviders> = [
         AuthProviders.Google,
         AuthProviders.Facebook
     ];
+    readonly ApplicationPaging: {
+        pageSize: 25
+    };
     
 }

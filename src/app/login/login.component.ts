@@ -25,7 +25,7 @@ export class PageLoginComponent implements OnInit {
     ngOnInit() {
       this.auth.logout();
       this.allowedAuthProviders = this.settings.AllowedAuthProviders;
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
     login(providerId: string) {

@@ -14,7 +14,6 @@ import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 
   providers: []
 })
 export class AppComponent implements OnInit {
-  __userSubscription: Subscription;
   user: Observable<AuthUser>;
 
   constructor (private af: AngularFire, 
@@ -28,8 +27,4 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.user = this.auth.getCurrentUser();
   }
-  
-  ngOnDestroy() {
-      this.__userSubscription.unsubscribe();
-   }
 }

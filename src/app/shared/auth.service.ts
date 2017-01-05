@@ -1,3 +1,4 @@
+import { FirebaseAuth } from 'angularfire2/auth';
 import { BehaviorSubject, Subscriber } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
@@ -41,7 +42,8 @@ export class AuthService implements OnInit {
 
 
   getCurrentUser () :Observable<AuthUser> {
-    return this._user.asObservable();
+    return this._user.asObservable()
+    .filter((user) => { return !!user; });
   }
 
   loadUser () {
@@ -118,7 +120,7 @@ export class AuthService implements OnInit {
         return combined;
   }
 
-  createNewDbUser (user: any) {
+  createNewDbUser (user: FirebaseAuthState) {
     return this.af.database.list('Users').$ref.ref.child(user.uid).set({
       photoUrl: user.auth.photoURL || 'http://thecatapi.com/api/images/get?format=src&type=gif',
       joined: Date.now(),

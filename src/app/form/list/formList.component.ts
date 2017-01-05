@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { Component, OnInit } from '@angular/core';
 
 import { Form } from '../form.model';
@@ -15,10 +16,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   ]
 })
 export class PageFormListComponent {
-  items: FirebaseListObservable<Array<Form>>;
+  forms: FirebaseListObservable<Array<Form>>;
 
   constructor(private fs: FormService, private ms: NgbModal) {
-    this.items = fs.forms;
+    this.forms = fs.getForms();
   }
 
   selectItem (item: Form) {

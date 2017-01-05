@@ -1,6 +1,11 @@
-<div class="container">
-    <div class="text-center">
-        <h1>Login</h1>
-        <button (click)="login(provider)" *ngFor="let provider of allowedAuthProviders" class="btn btn-lg btn-default">{{ auth.getProviderHR(provider) }} Login</button>
-    </div>
+<div class="login-form text-center">
+  <h1>Please Login</h1>
+  <br>
+  <div class="login-button-list">
+    <button (click)="login(provider)" *ngFor="let provider of allowedAuthProviders" class="btn btn-lg btn-block btn-default">{{ auth.getProviderHR(provider) }} Login</button>
+  </div>
+  <br>
+  <p class="text-muted text-small">
+    * If you have an account please login with the one you used last time. You can link your accounts later.
+  </p>
 </div>

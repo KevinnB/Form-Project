@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
@@ -14,20 +15,36 @@ export class FormService {
   forms: FirebaseListObservable<Array<Form>>;
 
   constructor(private af: AngularFire,
-              private auth: AuthService) { 
-
-    this.forms = this.getForms();
+              private auth: AuthService) {
   }
 
-  getForms(): FirebaseListObservable<Array<Form>>{ 
+  getForms(): FirebaseListObservable<Array<Form>> {
     var self = this;
-    return this.af.database
-      .list('/Forms')
-      .map((items) => {
-        return items.map( item => {
-          return self.hydrateForm(item);
-        })
-      }) as FirebaseListObservable<Array<Form>>;
+    return this.auth.getCurrentUser()
+      .switchMap((user) =>  this.af.database.list('/UserForms/' + user.uid)
+        .map((list) => {
+          return list.map((item) => {
+              return item.$key;
+          });
+        }))
+        .switchMap((list) => {
+          // Use forkJoin to join the form observables. The observables will
+          // need to complete, so first is used. And use forkJoin's selector to
+          // map the forms to their data and then return the final object.
+
+          return Observable.forkJoin(
+            list
+            .map((key) => this.af.database
+              .object(`/Forms/${key}`)
+              .first()
+              .map((dbForm) => {
+                console.log('Accessable Form:', dbForm);
+                return self.hydrateForm(dbForm);
+              })
+            )
+
+          );
+        }) as FirebaseListObservable<Array<Form>>; 
   }
 
   getForm(key:string): FirebaseListObservable<Form> {

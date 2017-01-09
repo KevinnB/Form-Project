@@ -95,8 +95,7 @@ export class FormService {
     var form = new Form(data.name, data.created, data.creator, data.creatorName, data.updated, data.dueDate, data.$key, data.status);
     
     form._permission.addRole(PermissionEntry.CanAccess);
-    form._permission.addRole(PermissionEntry.CanEdit);
-
+    
     if(currentUser.uid === form.creator) {
       form._permission.addRole(PermissionEntry.CanDelete);
       form._permission.addRole(PermissionEntry.CanEdit);

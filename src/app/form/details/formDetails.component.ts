@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs/Rx';
-import { Component, OnInit } from '@angular/core';
+import { Observable, Subscriber, Subscription } from 'rxjs/Rx';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute, Params  } from '@angular/router';
 
 import { Form } from '../form.model';
@@ -8,6 +8,7 @@ import { FormService } from '../form.service';
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'app-forms-details',
   templateUrl: './formDetails.component.html',
   styleUrls: ['./formDetails.component.scss'],
@@ -16,27 +17,29 @@ import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 
   ]
 })
 export class PageFormDetailsComponent {
+  _subscription: Subscription;
   formId: string;
   form: Form;
 
-    ngOnInit() {
-      this.route.params.forEach((params: Params) => {
-        this.formId = params['id'];
-      });
+  ngOnInit() {
+    this.route.params.forEach((params: Params) => {
+      this.formId = params['id'];
+    });
 
-      this.fs.getForm(this.formId).subscribe(data => {
-        if(data) {
-          this.form = data;
-        } else {
-          this.router.navigate(['PageNotFound']);
-        }
-      });
-      console.log(this.formId); // you should get your parameters here
-    }
+    this._subscription = this.fs.getForm(this.formId).subscribe(data => {
+      if(data) {
+        this.form = data;
+      } else {
+        this.router.navigate(['PageNotFound']);
+      }
+    });
+  }
+
+  ngOnDestroy(){
+    this._subscription.unsubscribe();
+  }
 
   constructor(private fs: FormService, 
               private router: Router,
-              private route: ActivatedRoute) {
-    //this.forms = fs.getForms();
-  }
+              private route: ActivatedRoute) { }
 }

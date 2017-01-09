@@ -19,8 +19,6 @@ export class PageFormListComponent {
 
   constructor(private fs: FormService) {
     this.forms = fs.getForms();
-
-    this.forms.subscribe(console.log);
   }
 
   selectItem (item: Form) {

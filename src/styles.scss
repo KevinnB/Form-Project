@@ -17,9 +17,12 @@ $app-theme: md-light-theme($app-primary, $app-accent, $app-warn);
 // that you are using.
 @include angular-material-theme($app-theme);
 body,
-html {
+html,
+app-root,
+{
     padding: 0px;
     margin: 0px;
+    height: 100%;
     background-color: #eee;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
@@ -47,19 +50,17 @@ html {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    padding: 0px 20px;
-    margin-bottom: 25px;
+    padding: 0px 30px;
     background: #607d8b;
     color: white;
     small {
         font-size: 1.4rem;
         margin-left: 5px;
-        padding: 5px;
+        padding: 0px 5px;
         &:before {
             display: inline-block;
             font: normal normal normal 14px/1 FontAwesome;
             content: '\f0da';
-            margin-bottom: 10px;
         }
     }
     a {
@@ -91,7 +92,12 @@ md-sidenav-container {
 }
 
 md-sidenav {
-    max-width: 200px;
+    width: 200px;
+}
+
+md-card {
+    width: 100%;
+    margin: 10px;
 }
 
 .md-sidenav-content,

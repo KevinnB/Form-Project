@@ -1,22 +1,6 @@
-<div class="page-header">
-  <h1>Forms<small>&nbsp;{{ (form | async)?.name }}</small></h1>
+<div *ngIf="form">
+  <div class="page-header">
+    <h1><a routerLink="/forms">Forms</a><small>&nbsp;{{ form.name }}</small></h1>
+  </div>
+
 </div>
-
-
-
-
-<template ngbModalContainer></template>
-<template #addFormContent let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    <h4 class="modal-title">Add Forms</h4>
-  </div>
-  <div class="modal-body">
-    <app-form-add new-form=''></app-form-add>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-  </div>
-</template>

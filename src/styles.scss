@@ -51,6 +51,21 @@ html {
     margin-bottom: 25px;
     background: #607d8b;
     color: white;
+    small {
+        font-size: 1.4rem;
+        margin-left: 5px;
+        padding: 5px;
+        &:before {
+            display: inline-block;
+            font: normal normal normal 14px/1 FontAwesome;
+            content: '\f0da';
+            margin-bottom: 10px;
+        }
+    }
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
     .header-btn {
         display: -webkit-box;
         display: -ms-flexbox;

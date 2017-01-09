@@ -1,9 +1,9 @@
 import { AuthProviders } from 'angularfire2/auth';
-import { AuthUser } from '../shared/authUser.model';
+import { AuthUser } from '../shared/auth/authUser.model';
 import { Observable } from 'rxjs/Rx';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { AuthService } from '../shared/auth.service';
+import { AuthService } from '../shared/auth/auth.service';
 
 import { ApplicationSettings } from '../shared/appSettings.model';
 

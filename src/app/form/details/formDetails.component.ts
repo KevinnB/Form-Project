@@ -17,14 +17,20 @@ import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 
 })
 export class PageFormDetailsComponent {
   formId: string;
-  form: FirebaseListObservable<Form>;
+  form: Form;
 
     ngOnInit() {
       this.route.params.forEach((params: Params) => {
         this.formId = params['id'];
       });
 
-      this.form = this.fs.getForm(this.formId);
+      this.fs.getForm(this.formId).subscribe(data => {
+        if(data) {
+          this.form = data;
+        } else {
+          this.router.navigate(['PageNotFound']);
+        }
+      });
       console.log(this.formId); // you should get your parameters here
     }
 

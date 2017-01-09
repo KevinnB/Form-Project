@@ -18,7 +18,6 @@ export class FormService {
 
   constructor(private af: AngularFire,
               private auth: AuthService) {
-                console.log(PermissionEntry, test);
   }
 
   getForms(): FirebaseListObservable<Array<Form>> {
@@ -62,13 +61,15 @@ export class FormService {
             return {user: user, canAccess: exists};
         }))
         .switchMap((data) => {
-          console.log(data);
-           return this.af.database
+          if(data.canAccess) {
+            return this.af.database
               .object('/Forms/' + key)
               .map((dbForm) => {
-                console.log(dbForm);
                 return self.hydrateForm(dbForm, data.user);
               });
+          } else {
+            return Observable.of(null);
+          }
         }) as FirebaseListObservable<Form>; 
 
     //return this.af.database.object('/Forms/' + key)

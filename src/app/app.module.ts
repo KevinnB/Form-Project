@@ -65,6 +65,10 @@ const appRoutes: Routes = [
     path: 'not-authorized',
     component: PageNotAuthorizedComponent
   },
+  {
+    path: 'not-found',
+    component: PageNotFoundComponent
+  },
   { path: '',
     redirectTo: '/forms',
     pathMatch: 'full',

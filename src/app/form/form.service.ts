@@ -84,11 +84,15 @@ export class FormService {
     return this.af.database.list('/Forms').push(model).key;
   }
 
+  updateForm(data: Form) : firebase.Promise<void> {
+    var model = this.cleanup.cleanse(data);
+    console.log("Add", model);
+    return this.af.database.object('/Forms/' + data.$key).update(model);
+  }
+
   removeForm(key: string) {
     return this.af.database.object('/Forms/' + key).remove();
   }
-
-
 
   hydrateForm(data:any, currentUser: AuthUser): Form {
     // This translates a firebase object into a typescript object
@@ -102,5 +106,5 @@ export class FormService {
     }
 
     return form;
-}
+  }
 }

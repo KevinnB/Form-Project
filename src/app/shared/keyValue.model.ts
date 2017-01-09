@@ -1,4 +1,9 @@
 export class KeyValue {
-    Key: string;
-    Value?: Boolean;
+    key: string;
+    value?: Boolean;
+
+    constructor(key?: string, value?: boolean) {
+        this.key = key;
+        this.value = value;
+    }
 }

@@ -1,3 +1,13 @@
+@mixin clearfix() {
+    &:before,
+    &:after {
+        display: table;
+        float: none;
+        clear: both;
+        content: " ";
+    }
+}
+
 @import '~@angular/material/core/theming/all-theme';
 // Plus imports for other components in your app.
 // Include the base styles for Angular Material core. We include this here so that you only
@@ -25,6 +35,7 @@ app-root,
     height: 100%;
     background-color: #eee;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+    position: relative;
 }
 
 .navbar-spacer {
@@ -44,6 +55,7 @@ app-root,
 }
 
 .page-header {
+    @include clearfix();
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -53,6 +65,7 @@ app-root,
     padding: 0px 30px;
     background: #607d8b;
     color: white;
+    z-index: 1;
     small {
         font-size: 1.4rem;
         margin-left: 5px;
@@ -73,6 +86,15 @@ app-root,
         display: flex;
         margin-bottom: -60px;
     }
+}
+
+.material-form {
+    margin: 15px 0px;
+}
+
+.page-content {
+    box-sizing: border-box;
+    height: 100%;
 }
 
 .pull-right {
@@ -100,8 +122,20 @@ md-card {
     margin: 10px;
 }
 
+.md-sidenav-container {
+    background-color: transparent;
+}
+
 .md-sidenav-content,
 md-sidenav {
     display: flex;
     overflow: visible;
+}
+
+.md-sidenav-content {
+    padding: 10px 15px;
+}
+
+md-list md-list-item [md-line][md-button] {
+    text-align: left;
 }

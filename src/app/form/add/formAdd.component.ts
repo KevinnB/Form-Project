@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { Form } from '../form.model';
 import { FormService } from '../form.service';
@@ -6,6 +6,7 @@ import { FormService } from '../form.service';
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'app-form-add',
   templateUrl: './formAdd.component.html',
   styleUrls: ['./formAdd.component.scss'],

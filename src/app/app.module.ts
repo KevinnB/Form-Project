@@ -27,7 +27,6 @@ import { PageNotAuthorizedComponent } from './not-authorized/not-authorized.comp
 import { PageLoginComponent } from './login/login.component';
 
 // Components
-import { StatusComponent } from './status/status.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
@@ -81,7 +80,6 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    StatusComponent,
     PageFormListComponent,
     PageFormDetailsComponent,
     PageFormAddComponent,

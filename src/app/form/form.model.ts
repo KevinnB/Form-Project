@@ -1,6 +1,6 @@
 import { KeyValue } from '../shared/KeyValue.model';
 import { IFireBase } from '../shared/IFireBase.model';
-import { Status } from '../status/status.model';
+import { Status } from '../shared/status.model';
 
 export class Form extends IFireBase{
     name: string;

@@ -1,31 +1,61 @@
-<div class="page-header">
-  <h1><a routerLink="/forms">Forms</a><small *ngIf="form">&nbsp;{{ form.name }}</small></h1>
-</div>
+<div class="page-content">
+  <div class="page-header">
+    <h1><a routerLink="/forms">Forms</a><small *ngIf="form">&nbsp;{{ form.name }}</small></h1>
+    <div class="navbar-spacer"></div>
+    <div class="header-btn">
+      <a md-fab (click)="sidenav.toggle()">
+        <md-icon fontSet="fa" fontIcon="fa-bars" class="fa-lg"></md-icon>
+      </a>
+    </div>
+  </div>
 
-<div *ngIf="form">
-  <md-sidenav-container class="example-sidenav-fab-container">
-    <md-sidenav #sidenav mode="side" opened="true">
+  <md-sidenav-container>
+    <md-sidenav #sidenav mode="side" align="right" opened="true">
       <md-list>
-        <h3 md-subheader>Folders</h3>
-        <md-list-item *ngFor="let folder of folders">
-          <md-icon md-list-avatar>folder</md-icon>
-          <h4 md-line>{{folder.name}}</h4>
-          <p md-line> {{folder.updated | date}} </p>
+        <h3 md-subheader>Toolbox</h3>
+        <md-list-item>
+          <button md-button md-line>
+            Test
+          </button>
         </md-list-item>
         <md-divider></md-divider>
-        <h3 md-subheader>Notes</h3>
-        <md-list-item *ngFor="let note of notes">
-          <md-icon md-list-avatar>note</md-icon>
-          <h4 md-line>{{note.name}}</h4>
-          <p md-line> {{note.updated | date}} </p>
-        </md-list-item>
       </md-list>
     </md-sidenav>
-    <button md-mini-fab class="example-fab" (click)="sidenav.toggle()">
-    <md-icon>add</md-icon>
-  </button>
-    <div>
-      <pre>{{ form | json }}</pre>
-    </div>
+    <form (ngSubmit)="onSubmit($event, documentForm.form.valid)" #documentForm="ngForm" class="material-form" *ngIf="form">
+
+      <md-input-container>
+        <input md-input id="name" [(ngModel)]="form.name" name="name" #name="ngModel" placeholder="Name" autocomplete="false" required>
+        <md-hint align="end" *ngIf="!name.valid && !name.pristine">Name is required</md-hint>
+      </md-input-container>
+      <br>
+
+      <md-input-container>
+        <input md-input id="created" [value]="form.created | date:'yyyy-MM-dd'" name="created" type="date" placeholder="Created" disabled>
+      </md-input-container>
+      <br>
+
+      <md-input-container>
+        <input md-input id="creatorName" [value]="form.creatorName" name="creatorName" type="text" placeholder="Created By" disabled>
+      </md-input-container>
+      <br>
+
+      <md-input-container>
+        <input md-input id="updated" [value]="form.updated | date:'yyyy-MM-dd'" name="updated" type="date" placeholder="Last Updated" disabled>
+      </md-input-container>
+      <br>
+
+      <md-select placeholder="Status" [(ngModel)]="form.status" (ngModelChange)="updateStatusHr(form.status)" name="status">
+        <md-option *ngFor="let item of statusList" [value]="item.value">
+          {{ item.key }}
+        </md-option>
+      </md-select>
+      <br>
+      <br>
+      <br>
+      <button md-button type="submit" class="btn btn-default" [disabled]="!documentForm.form.valid">Submit</button>
+    </form>
+
+
+    <pre>{{ form | json }}</pre>
   </md-sidenav-container>
 </div>

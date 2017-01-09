@@ -6,7 +6,6 @@ import { Form } from '../form.model';
 import { FormService } from '../form.service';
 
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-forms-details',
@@ -22,15 +21,16 @@ export class PageFormDetailsComponent {
 
     ngOnInit() {
       this.route.params.forEach((params: Params) => {
-        this.formId = this.route.params['id'];
+        this.formId = params['id'];
       });
+
+      this.form = this.fs.getForm(this.formId);
       console.log(this.formId); // you should get your parameters here
     }
 
   constructor(private fs: FormService, 
-              private ms: NgbModal,
-               private router: Router,
-               private route: ActivatedRoute,) {
+              private router: Router,
+              private route: ActivatedRoute) {
     //this.forms = fs.getForms();
   }
 }

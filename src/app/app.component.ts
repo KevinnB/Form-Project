@@ -1,11 +1,14 @@
-import { AuthUser } from './shared/authUser.model';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { AuthService } from './shared/auth.service';
-import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
+
+import { AuthService } from './shared/auth/auth.service';
+import { AuthUser } from './shared/auth/authUser.model';
+
+
 
 @Component({
   selector: 'app-root',

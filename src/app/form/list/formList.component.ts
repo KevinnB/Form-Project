@@ -5,7 +5,6 @@ import { Form } from '../form.model';
 import { FormService } from '../form.service';
 
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-forms',
@@ -18,9 +17,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class PageFormListComponent {
   forms: FirebaseListObservable<Array<Form>>;
 
-  constructor(private fs: FormService, 
-              private ms: NgbModal) {
+  constructor(private fs: FormService) {
     this.forms = fs.getForms();
+
+    this.forms.subscribe(console.log);
   }
 
   selectItem (item: Form) {
@@ -28,10 +28,10 @@ export class PageFormListComponent {
   } 
 
   addForm(content) {
-    this.ms.open(content).result.then((result) => {
-      console.log(`Closed with: ${result}`);
-    }, (reason) => {
-      console.log(`Dismissed ${reason}`);
-    });
+    //this.ms.open(content).result.then((result) => {
+    //  console.log(`Closed with: ${result}`);
+    //}, (reason) => {
+    //  console.log(`Dismissed ${reason}`);
+    //});
   }
 }

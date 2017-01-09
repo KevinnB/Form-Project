@@ -1,4 +1,9 @@
-<h1>Forms - Details</h1>
+<div class="page-header">
+  <h1>Forms<small>&nbsp;{{ (form | async)?.name }}</small></h1>
+</div>
+
+
+
 
 <template ngbModalContainer></template>
 <template #addFormContent let-c="close" let-d="dismiss">

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ApplicationSettings } from '../shared/appSettings.model';
-import { AuthService } from '../shared/auth.service';
+import { AuthService } from '../shared/auth/auth.service';
 
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
 

@@ -1,47 +1,19 @@
-<nav class="navbar navbar-default" *ngIf="user | async">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+<md-toolbar color="primary">
+  <button md-button routerLink="/forms"> My Forms</button>
+  <span class="navbar-spacer"></span>
+  <button md-button [mdMenuTriggerFor]="menu">
+    <img [src]="(user | async)?.photoURL" alt="i" class="account-photo border-rounded">&nbsp;
+    {{ (user | async)?.displayName}}
+  </button>
+  <md-menu #menu="mdMenu">
+    <button md-menu-item routerLink="/profile">
+        <md-icon fontSet="fa" fontIcon="fa-user"></md-icon>
+        <span>Profile</span>
+    </button>
+    <button md-menu-item (click)="logout()">
+        <md-icon fontSet="fa" fontIcon="fa-power-off"></md-icon>
+        <span>Logout</span>
       </button>
-      <a class="navbar-brand" routerLink="/forms">Form Builder</a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li routerLinkActive="active"><a routerLink="/forms">Forms</a></li>
-        <li ngbDropdown class="d-inline-block">
-          <a href="javascript:void(0)" id="dropdownMenu1" ngbDropdownToggle>Dropdown&nbsp;<i class="fa fa-caret-down"></i></a>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li class="dropdown-item">Action - 1</li>
-            <li class="dropdown-item">Another Action</li>
-            <li class="dropdown-item">Something else is here</li>
-          </ul>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li ngbDropdown class="d-inline-block">
-          <a href="javascript:void(0)" id="dropdown-account" ngbDropdownToggle>
-            <img [src]="(user | async)?.photoURL" alt="i" class="account-photo border-rounded"> {{ (user | async)?.displayName}}&nbsp;
-            <i class="fa fa-caret-down"></i></a>
-          <ul class="dropdown-menu" aria-labelledby="dropdown-account">
-            <li class="dropdown-item"><a routerLink="/profile">Profile</a></li>
-            <li class="divider"></li>
-            <li class="dropdown-item"><a href="javascript:void(0);" (click)="logout()">Logout</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <!-- /.navbar-collapse -->
-  </div>
-  <!-- /.container-fluid -->
-</nav>
-
-<div class="container-fluid">
-  <router-outlet></router-outlet>
-</div>
+  </md-menu>
+</md-toolbar>
+<router-outlet></router-outlet>

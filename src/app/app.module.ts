@@ -4,12 +4,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+//import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { AuthService } from './shared/auth.service';
-import { AuthGuardLoggedIn } from './shared/guard.loggedIn';
+import { AuthService } from './shared/auth/auth.service';
+import { AuthGuardLoggedIn } from './shared/auth/guard.loggedIn';
 
 import { AngularFireModule, AuthMethods } from 'angularfire2';
+import { MaterialModule } from '@angular/material';
 
 // Root
 import { AppComponent } from './app.component';
@@ -86,8 +87,8 @@ const appRoutes: Routes = [
     UserProfileComponent  
     ],
   imports: [
-    //MaterialModule.forRoot(),
-    NgbModule.forRoot(),
+    MaterialModule.forRoot(),
+    // NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     BrowserModule,
     FormsModule,

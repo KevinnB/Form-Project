@@ -1,9 +1,11 @@
+import { PermissionEntry, test } from '../shared/auth/permissionEntry.model';
+import { AuthUser } from '../shared/auth/authUser.model';
+import { AuthService } from '../shared/auth/auth.service';
+
 import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
-
-import { AuthService } from '../shared/auth.service';
 
 import { Form } from './form.model';
 import { cleansedModel } from '../shared/cleansed.model';
@@ -16,29 +18,33 @@ export class FormService {
 
   constructor(private af: AngularFire,
               private auth: AuthService) {
+                console.log(PermissionEntry, test);
   }
 
   getForms(): FirebaseListObservable<Array<Form>> {
     var self = this;
+
     return this.auth.getCurrentUser()
       .switchMap((user) =>  this.af.database.list('/UserForms/' + user.uid)
-        .map((list) => {
-          return list.map((item) => {
-              return item.$key;
-          });
+          .map((list) => {
+            var keys = list.map((item) => {
+                return item.$key;
+            });
+
+            return {user: user, keys: keys};
         }))
-        .switchMap((list) => {
+        .switchMap((data) => {
           // Use forkJoin to join the form observables. The observables will
           // need to complete, so first is used. And use forkJoin's selector to
           // map the forms to their data and then return the final object.
 
           return Observable.forkJoin(
-            list
+            data.keys
             .map((key) => this.af.database
               .object(`/Forms/${key}`)
               .first()
               .map((dbForm) => {
-                return self.hydrateForm(dbForm);
+                return self.hydrateForm(dbForm, data.user);
               })
             )
 
@@ -48,10 +54,27 @@ export class FormService {
 
   getForm(key:string): FirebaseListObservable<Form> {
     var self = this;
-    return this.af.database.object('/Forms/' + key)
-      .map((item) => {
-        return self.hydrateForm(item);
-      }) as FirebaseListObservable<Form>;
+
+    return this.auth.getCurrentUser()
+      .switchMap((user) =>  this.af.database.object('/UserForms/' + user.uid + '/' + key)
+          .map((object) => {
+            var exists = (object && object.$exists())
+            return {user: user, canAccess: exists};
+        }))
+        .switchMap((data) => {
+          console.log(data);
+           return this.af.database
+              .object('/Forms/' + key)
+              .map((dbForm) => {
+                console.log(dbForm);
+                return self.hydrateForm(dbForm, data.user);
+              });
+        }) as FirebaseListObservable<Form>; 
+
+    //return this.af.database.object('/Forms/' + key)
+    //  .map((item) => {
+    //    return self.hydrateForm(item, auth);
+    //  }) as FirebaseListObservable<Form>;
   }
 
   addForm(data: Form): string {
@@ -64,8 +87,20 @@ export class FormService {
     return this.af.database.object('/Forms/' + key).remove();
   }
 
-  hydrateForm(data:any): Form {
+
+
+  hydrateForm(data:any, currentUser: AuthUser): Form {
     // This translates a firebase object into a typescript object
-    return new Form(data.name, data.created, data.creator, data.creatorName, data.updated, data.dueDate, data.$key, data.status);
-  }
+    var form = new Form(data.name, data.created, data.creator, data.creatorName, data.updated, data.dueDate, data.$key, data.status);
+    
+    form._permission.addRole(PermissionEntry.CanAccess);
+    form._permission.addRole(PermissionEntry.CanEdit);
+
+    if(currentUser.uid === form.creator) {
+      form._permission.addRole(PermissionEntry.CanDelete);
+      form._permission.addRole(PermissionEntry.CanEdit);
+    }
+
+    return form;
+}
 }

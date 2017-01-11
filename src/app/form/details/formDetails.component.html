@@ -21,41 +21,41 @@
         <md-divider></md-divider>
       </md-list>
     </md-sidenav>
-    <form (ngSubmit)="onSubmit($event, documentForm.form.valid)" #documentForm="ngForm" class="material-form" *ngIf="form">
 
-      <md-input-container>
-        <input md-input id="name" [(ngModel)]="form.name" name="name" #name="ngModel" placeholder="Name" autocomplete="false" required>
-        <md-hint align="end" *ngIf="!name.valid && !name.pristine">Name is required</md-hint>
-      </md-input-container>
-      <br>
+    <app-loader-manager [config]="_pageSettings">
+      <form (ngSubmit)="onSubmit($event, documentForm.form.valid)" #documentForm="ngForm" class="material-form" *ngIf="form">
 
-      <md-input-container>
-        <input md-input id="created" [value]="form.created | date:'yyyy-MM-dd'" name="created" type="date" placeholder="Created" disabled>
-      </md-input-container>
-      <br>
+        <md-input-container>
+          <input md-input id="name" [(ngModel)]="form.name" name="name" #name="ngModel" placeholder="Name" autocomplete="false" required>
+          <md-hint align="end" *ngIf="!name.valid && !name.pristine">Name is required</md-hint>
+        </md-input-container>
+        <br>
 
-      <md-input-container>
-        <input md-input id="creatorName" [value]="form.creatorName" name="creatorName" type="text" placeholder="Created By" disabled>
-      </md-input-container>
-      <br>
+        <md-input-container>
+          <input md-input id="created" [value]="form.created | date:'yyyy-MM-dd'" name="created" type="date" placeholder="Created" disabled>
+        </md-input-container>
+        <br>
 
-      <md-input-container>
-        <input md-input id="updated" [value]="form.updated | date:'yyyy-MM-dd'" name="updated" type="date" placeholder="Last Updated" disabled>
-      </md-input-container>
-      <br>
+        <md-input-container>
+          <input md-input id="creatorName" [value]="form.creatorName" name="creatorName" type="text" placeholder="Created By" disabled>
+        </md-input-container>
+        <br>
 
-      <md-select placeholder="Status" [(ngModel)]="form.status" (ngModelChange)="updateStatusHr(form.status)" name="status">
-        <md-option *ngFor="let item of statusList" [value]="item.value">
-          {{ item.key }}
-        </md-option>
-      </md-select>
-      <br>
-      <br>
-      <br>
-      <button md-button type="submit" class="btn btn-default" [disabled]="!documentForm.form.valid">Submit</button>
-    </form>
+        <md-input-container>
+          <input md-input id="updated" [value]="form.updated | date:'yyyy-MM-dd'" name="updated" type="date" placeholder="Last Updated" disabled>
+        </md-input-container>
+        <br>
 
-
-    <pre>{{ form | json }}</pre>
+        <md-select placeholder="Status" [(ngModel)]="form.status" (ngModelChange)="updateStatusHr(form.status)" name="status">
+          <md-option *ngFor="let item of statusList" [value]="item.value">
+            {{ item.key }}
+          </md-option>
+        </md-select>
+        <br>
+        <br>
+        <br>
+        <button md-button type="submit" class="btn btn-default" [disabled]="!documentForm.form.valid">Submit</button>
+      </form>
+    </app-loader-manager>
   </md-sidenav-container>
 </div>

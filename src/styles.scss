@@ -65,7 +65,7 @@ app-root,
     padding: 0px 30px;
     background: #607d8b;
     color: white;
-    z-index: 1;
+    z-index: 2;
     small {
         font-size: 1.4rem;
         margin-left: 5px;
@@ -85,6 +85,7 @@ app-root,
         display: -ms-flexbox;
         display: flex;
         margin-bottom: -60px;
+        z-index: 2;
     }
 }
 
@@ -118,8 +119,11 @@ md-sidenav {
 }
 
 md-card {
-    width: 100%;
     margin: 10px;
+}
+
+md-grid-list md-card {
+    width: 100%;
 }
 
 .md-sidenav-container {

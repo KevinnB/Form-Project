@@ -8,26 +8,25 @@
   </div>
 </div>
 
-<md-grid-list cols="4" rowHeight="150px">
-  <md-grid-tile *ngFor="let item of forms | async" [colspan]="1" [rowspan]="1">
-    <md-card>
-      <md-card-header>
-        <div md-card-avatar>
-          <md-icon fontSet="fa" fontIcon="fa-file" class="fa-lg text-muted"></md-icon>
-        </div>
-        <md-card-title>{{item.name}}</md-card-title>
-        <md-card-subtitle>{{item.updated | date}}</md-card-subtitle>
-      </md-card-header>
-      <md-card-actions>
-        <button md-button [routerLink]="['/forms', item.$key]">VIEW</button>
-        <button md-button>SHARE</button>
-      </md-card-actions>
-    </md-card>
-  </md-grid-tile>
-</md-grid-list>
-
-
-
+<app-loader-manager [config]="_pageSettings">
+  <md-grid-list cols="4" rowHeight="150px">
+    <md-grid-tile *ngFor="let item of forms | async" [colspan]="1" [rowspan]="1">
+      <md-card>
+        <md-card-header>
+          <div md-card-avatar>
+            <md-icon fontSet="fa" fontIcon="fa-file" class="fa-lg text-muted"></md-icon>
+          </div>
+          <md-card-title>{{item.name}}</md-card-title>
+          <md-card-subtitle>{{item.updated | date}}</md-card-subtitle>
+        </md-card-header>
+        <md-card-actions>
+          <button md-button [routerLink]="['/forms', item.$key]">VIEW</button>
+          <button md-button>SHARE</button>
+        </md-card-actions>
+      </md-card>
+    </md-grid-tile>
+  </md-grid-list>
+</app-loader-manager>
 
 <template ngbModalContainer></template>
 <template #addFormContent let-c="close" let-d="dismiss">

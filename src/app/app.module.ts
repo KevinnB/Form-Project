@@ -28,6 +28,7 @@ import { PageLoginComponent } from './login/login.component';
 
 // Components
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { LoaderManagerComponent } from './loader-manager/loader-manager.component';
 
 
 // Must export the config
@@ -86,7 +87,8 @@ const appRoutes: Routes = [
     PageNotFoundComponent,
     PageNotAuthorizedComponent,
     PageLoginComponent,
-    UserProfileComponent  
+    UserProfileComponent,
+    LoaderManagerComponent  
     ],
   imports: [
     MaterialModule.forRoot(),

@@ -1,10 +1,12 @@
 import { Observable, Subscriber, Subscription } from 'rxjs/Rx';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute, Params  } from '@angular/router';
+import { MdSnackBar } from '@angular/material';
 
 import { Form } from '../form.model';
 import { FormService } from '../form.service';
 import { Status } from '../../shared/status.model';
+import { PageSettings } from '../../shared/pageSettings.model';
 import { KeyValue } from '../../shared/keyValue.model';
 
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
@@ -19,6 +21,7 @@ import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 
   ]
 })
 export class PageFormDetailsComponent {
+  _pageSettings: PageSettings;
   _subscription: Subscription;
   statusList: Array<KeyValue>;
   formId: string;
@@ -37,15 +40,22 @@ export class PageFormDetailsComponent {
     this.form._statusHR = Status[key];
   }
 
+  openSnackBar(message: string) {
+    this.snackBar.open(message, "OK", {
+      duration: 3000,
+    });
+  }
+
   onSubmit(event, valid) {
+    var self = this;
     event.preventDefault();
     if(valid) {
-      console.log("Submit");
+
       this.fs.updateForm(this.form)
         .then((response) => {
-          console.log("Success", response);
+          self.openSnackBar("Successfully saved form.");
         }, (response) => {
-          console.error("Error", response);
+          self.openSnackBar("Failed to save form. Please try again.");
         });
     }
   }
@@ -57,11 +67,15 @@ export class PageFormDetailsComponent {
     this.route.params.forEach((params: Params) => {
       this.formId = params['id'];
     });
-
+    
     this._subscription = this.fs.getForm(this.formId).subscribe(data => {
       if(data) {
         this.form = data;
+
+        this._pageSettings.stopLoading();
+        this.ngOnDestroy();
       } else {
+        this._pageSettings.error("Cannot find Form.");
         this.router.navigate(['PageNotFound']);
       }
     });
@@ -73,5 +87,9 @@ export class PageFormDetailsComponent {
 
   constructor(private fs: FormService, 
               private router: Router,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              public snackBar: MdSnackBar) { 
+
+                this._pageSettings = new PageSettings(true);
+              }
 }

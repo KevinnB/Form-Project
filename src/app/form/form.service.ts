@@ -70,12 +70,7 @@ export class FormService {
           } else {
             return Observable.of(null);
           }
-        }) as FirebaseListObservable<Form>; 
-
-    //return this.af.database.object('/Forms/' + key)
-    //  .map((item) => {
-    //    return self.hydrateForm(item, auth);
-    //  }) as FirebaseListObservable<Form>;
+        }) as FirebaseListObservable<Form>;
   }
 
   addForm(data: Form): string {

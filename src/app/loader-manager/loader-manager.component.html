@@ -1,0 +1,12 @@
+<div *ngIf="config._loading">
+  <div class="loading">
+    <md-spinner class="accent" style="margin:10px auto;"></md-spinner>
+    <p>{{ config.message }}</p>
+  </div>
+</div>
+<div *ngIf="!config._loading && !config._error">
+  <ng-content></ng-content>
+</div>
+<div *ngIf="config._error">
+  <h1>Error</h1>
+</div>

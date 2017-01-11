@@ -80,6 +80,7 @@ export class FormService {
   }
 
   updateForm(data: Form) : firebase.Promise<void> {
+    data.updated = Date.now();
     var model = this.cleanup.cleanse(data);
     console.log("Add", model);
     return this.af.database.object('/Forms/' + data.$key).update(model);

@@ -45,35 +45,37 @@
             Test
           </button>
         </md-list-item>
+        <md-list-item *ngFor="let item of [1,2,3,4,5,6,7]" dnd-draggable [dragEnabled]="true" [dragData]="{test:item}">
+          {{item}}
+          <app-tool [toolType]="item" [allowDrag]="true" [displayOnly]="true"></app-tool>
+        </md-list-item>
       </md-list>
     </md-sidenav>
 
     <app-loader-manager [config]="_pageSettings">
-      <h4>Simple Drag-and-Drop</h4>
+      <md-card>
+        <form (ngSubmit)="onSubmit($event, documentForm.form.valid)" #documentForm="ngForm" *ngIf="form" class="material-form">
 
-      <md-card dnd-droppable (onDropSuccess)="transferDataSuccess($event)">
-        Place to drop {{ entities | json}}
-        <br><br><br><br><br><br>
+          <md-input-container>
+            <input md-input id="name" [(ngModel)]="form.name" name="name" #name="ngModel" placeholder="Name" autocomplete="false" required>
+            <md-hint align="end" *ngIf="!name.valid && !name.pristine">Name is required</md-hint>
+          </md-input-container>
+
+          <md-select placeholder="Status" [(ngModel)]="form.status" name="status">
+            <md-option *ngFor="let item of statusList" [value]="item.value">
+              {{ item.key }}
+            </md-option>
+          </md-select>
+          <br>
+          <br>
+          <br>
+          <button md-button type="submit" class="btn btn-default" [disabled]="!documentForm.form.valid && !documentForm.form.pristine">Submit</button>
+        </form>
+        <div dnd-droppable (onDropSuccess)="transferDataSuccess($event)">
+          Place to drop {{ entities | json}}
+          <br><br><br><br><br><br>
+        </div>
       </md-card>
-
-
-      <form (ngSubmit)="onSubmit($event, documentForm.form.valid)" #documentForm="ngForm" *ngIf="form" class="material-form">
-
-        <md-input-container>
-          <input md-input id="name" [(ngModel)]="form.name" name="name" #name="ngModel" placeholder="Name" autocomplete="false" required>
-          <md-hint align="end" *ngIf="!name.valid && !name.pristine">Name is required</md-hint>
-        </md-input-container>
-
-        <md-select placeholder="Status" [(ngModel)]="form.status" (ngModelChange)="updateStatusHr(form.status)" name="status">
-          <md-option *ngFor="let item of statusList" [value]="item.value">
-            {{ item.key }}
-          </md-option>
-        </md-select>
-        <br>
-        <br>
-        <br>
-        <button md-button type="submit" class="btn btn-default" [disabled]="!documentForm.form.valid">Submit</button>
-      </form>
     </app-loader-manager>
   </md-sidenav-container>
 </div>

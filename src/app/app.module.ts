@@ -35,6 +35,7 @@ import { ManageComponent } from './manage/manage.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { LoaderManagerComponent } from './loader-manager/loader-manager.component';
 import { EntityComponent } from './entity/entity.component';
+import { ToolComponent } from './tool/tool.component';
 
 
 // Must export the config
@@ -102,7 +103,8 @@ const appRoutes: Routes = [
     UserProfileComponent,
     LoaderManagerComponent,
     ManageComponent,
-    EntityComponent  
+    EntityComponent,
+    ToolComponent  
     ],
   imports: [
     MaterialModule.forRoot(),

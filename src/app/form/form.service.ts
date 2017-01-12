@@ -37,6 +37,9 @@ export class FormService {
           // Use forkJoin to join the form observables. The observables will
           // need to complete, so first is used. And use forkJoin's selector to
           // map the forms to their data and then return the final object.
+          if(!data || data.keys.length === 0) {
+            return Observable.of([]);
+          }
 
           return Observable.forkJoin(
             data.keys
@@ -83,7 +86,7 @@ export class FormService {
     data.updated = Date.now();
 
     var model = this.cleanup.cleanse(data);
-    console.log("Add", model);
+    console.log("Update", model);
     return this.af.database.object('/Forms/' + data.$key).update(model);
   }
 

@@ -62,8 +62,7 @@ export class PageFormDetailsComponent {
 
   ngOnInit() {
     this.statusList = this.getkeys(Status);
-    console.log(this.statusList);
-
+    
     this.route.params.forEach((params: Params) => {
       this.formId = params['id'];
     });

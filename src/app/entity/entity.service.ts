@@ -59,7 +59,7 @@ cleanup: cleansedModel = new cleansedModel();
 
   hydrateEntity(data:any, currentUser: AuthUser): Entity {
     // This translates a firebase object into a typescript object
-    var entity = new Entity(data.created, data.creator, data.creatorName, data.updated, data.height, data.labelName, data.propName, data.type, data.input_type, data.value, data.$key);
+    var entity = new Entity(data.created, data.creator, data.creatorName, data.updated, data.height, data.labelName, data.propName, data.type, data.toolId, data.value, data.$key);
     
     entity._permission.addRole(PermissionEntry.CanAccess);
     

@@ -1,24 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'app-tool',
   templateUrl: './tool.component.html',
   styleUrls: ['./tool.component.scss'],
   inputs: [
-    'toolType',
+    'toolId',
+    'toolIndex',
     'allowDrag',
-    'displayOnly'
+    'displayOnly',
+    'model'
   ]
 })
 export class ToolComponent implements OnInit {
-  toolType: string;
+  toolId: number;
   allowDrag: boolean;
   displayOnly: boolean;
+  toolIndex: number;
+  model: Object;
 
   constructor() { }
 
   ngOnInit() {
-    console.log(this.toolType, this.allowDrag, this.displayOnly);
+    console.log(this);
   }
 
 }

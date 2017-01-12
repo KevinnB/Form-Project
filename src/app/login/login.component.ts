@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ApplicationSettings } from '../shared/appSettings.model';
@@ -8,6 +8,7 @@ import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 
 
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']

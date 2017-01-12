@@ -1,12 +1,13 @@
 import { EntityService } from '../../entity/entity.service';
 import { Observable, Subscriber, Subscription } from 'rxjs/Rx';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router, ActivatedRoute, Params  } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 
 import { Form } from '../form.model';
 import { FormService } from '../form.service';
 import { Status } from '../../shared/status.model';
+import { Tools } from '../../shared/tools.model';
 import { PageSettings } from '../../shared/pageSettings.model';
 import { KeyValue } from '../../shared/keyValue.model';
 
@@ -25,19 +26,21 @@ import { AngularFire, AuthProviders, AuthMethods, FirebaseObjectObservable } fro
 export class PageFormDetailsComponent {
   _pageSettings: PageSettings;
   _subscription: Subscription;
+  tools: Array<any>;
+  formSections: Array<any>
   entities: Array<any>;
   statusList: Array<KeyValue>;
   formId: string;
   form$: FirebaseObjectObservable<Form>;
   form: Form;
 
-  getkeys(list) : Array<KeyValue> {
-      var keys = Object.keys(list);
-      keys = keys.slice(keys.length / 2);
-      
-      return keys.map((item) => {
-        return new KeyValue(item, Status[item]);
-      });
+  getkeys(list): Array<KeyValue> {
+    var keys = Object.keys(list);
+    keys = keys.slice(keys.length / 2);
+
+    return keys.map((item) => {
+      return new KeyValue(item, Status[item]);
+    });
   }
 
   openSnackBar(message: string) {
@@ -49,7 +52,7 @@ export class PageFormDetailsComponent {
   onSubmit(event, valid) {
     var self = this;
     event.preventDefault();
-    if(valid) {
+    if (valid) {
 
       this.fs.updateForm(this.form)
         .then((response) => {
@@ -62,7 +65,12 @@ export class PageFormDetailsComponent {
 
   ngOnInit() {
     this.statusList = this.getkeys(Status);
-    
+    this.formSections = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    this.entities = [];
+
+    this._pageSettings = new PageSettings(true);
+    this.tools = Object.keys(Tools).filter(key => !isNaN(Number(key)));
+
     this.route.params.forEach((params: Params) => {
       this.formId = params['id'];
     });
@@ -78,7 +86,7 @@ export class PageFormDetailsComponent {
           })
       })
       .subscribe(data => {
-        if(data) {
+        if (data) {
           this.form = data;
           this.entities = this.form._entities;
           this._pageSettings.stopLoading();
@@ -87,23 +95,23 @@ export class PageFormDetailsComponent {
           this._pageSettings.error("Cannot find Data.");
           this.router.navigate(['PageNotFound']);
         }
-    });
+      });
   }
 
-  transferDataSuccess ($event) {
-    this.entities.push($event.dragData);
+  transferDataSuccess($event, area) {
+    var toolId = $event.dragData;
+
+    this.entities.push(Tools[toolId]);
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this._subscription.unsubscribe();
   }
 
-  constructor(private fs: FormService, 
-              private es: EntityService, 
-              private router: Router,
-              private route: ActivatedRoute,
-              public snackBar: MdSnackBar) { 
-
-                this._pageSettings = new PageSettings(true);
-              }
+  constructor(private fs: FormService,
+    private es: EntityService,
+    private router: Router,
+    private route: ActivatedRoute,
+    public snackBar: MdSnackBar) {
+  }
 }

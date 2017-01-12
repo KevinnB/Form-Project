@@ -1,3 +1,49 @@
-<p>
-  tool works!
-</p>
+<div [ngSwitch]="toolId" class="toolbox">
+  <div *ngSwitchCase="1">
+    <!-- Textbox Input -->
+    <div [ngSwitch]="displayOnly">
+      <div *ngSwitchCase="true" class="display-tool" [ngClass]="{'draggable-tool': allowDrag}">
+        Textbox
+      </div>
+      <div *ngSwitchCase="false">
+        <input [id]="'textbox-' + toolIndex" [(ngModel)]="model.value" type="text">
+      </div>
+    </div>
+  </div>
+  <div *ngSwitchCase="2">
+    <!-- Select Input -->
+    <div [ngSwitch]="displayOnly">
+      <div *ngSwitchCase="true" class="display-tool" [ngClass]="{'draggable-tool': allowDrag}">
+        Dropdown
+      </div>
+      <div *ngSwitchCase="false">
+        <select [id]="'select-' + toolIndex" [(ngModel)]="model.value"></select>
+      </div>
+    </div>
+  </div>
+  <div *ngSwitchCase="3">
+    <!-- Checkbox Input -->
+    <div [ngSwitch]="displayOnly">
+      <div *ngSwitchCase="true" class="display-tool" [ngClass]="{'draggable-tool': allowDrag}">
+        Checkbox
+      </div>
+      <div *ngSwitchCase="false">
+        <input [id]="'checkbox-' + toolIndex" [(ngModel)]="model.value" type="checkbox">
+      </div>
+    </div>
+  </div>
+  <div *ngSwitchCase="4">
+    <!-- Radio Input -->
+    <div [ngSwitch]="displayOnly">
+      <div *ngSwitchCase="true" class="display-tool" [ngClass]="{'draggable-tool': allowDrag}">
+        Radio
+      </div>
+      <div *ngSwitchCase="false">
+        <input [id]="'radio-' + toolIndex" [(ngModel)]="model.value" type="radio">
+      </div>
+    </div>
+  </div>
+  <div *ngSwitchDefault>
+    <p>Cannot determine tool.</p>
+  </div>
+</div>

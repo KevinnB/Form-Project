@@ -40,21 +40,15 @@
       </md-list>
       <md-list class="sidebar-toolbox">
         <h3 md-subheader>Toolbox</h3>
-        <md-list-item>
-          <button md-button md-line dnd-draggable [dragEnabled]="true" [dragData]="{test:'true'}">
-            Test
-          </button>
-        </md-list-item>
-        <md-list-item *ngFor="let item of [1,2,3,4,5,6,7]" dnd-draggable [dragEnabled]="true" [dragData]="{test:item}">
-          {{item}}
-          <app-tool [toolType]="item" [allowDrag]="true" [displayOnly]="true"></app-tool>
+        <md-list-item *ngFor="let item of tools" dnd-draggable [dragEnabled]="true" [dragData]="item">
+          <app-tool [toolId]="item" [allowDrag]="true" [displayOnly]="true"></app-tool>
         </md-list-item>
       </md-list>
     </md-sidenav>
 
     <app-loader-manager [config]="_pageSettings">
-      <md-card>
-        <form (ngSubmit)="onSubmit($event, documentForm.form.valid)" #documentForm="ngForm" *ngIf="form" class="material-form">
+      <md-card *ngIf="form">
+        <form (ngSubmit)="onSubmit($event, documentForm.form.valid)" #documentForm="ngForm" class="material-form">
 
           <md-input-container>
             <input md-input id="name" [(ngModel)]="form.name" name="name" #name="ngModel" placeholder="Name" autocomplete="false" required>
@@ -66,15 +60,24 @@
               {{ item.key }}
             </md-option>
           </md-select>
+
           <br>
+
+          <md-card dnd-droppable (onDropSuccess)="transferDataSuccess($event)">
+            Place to drop {{ entities | json}}
+            <br><br><br><br><br><br>
+          </md-card>
+          <ul dnd-sortable-container [sortableData]="form._entities">
+            <li *ngFor="let item of form._entities; let idx = index;" class="list-group-item" dnd-sortable [sortableIndex]="idx">
+              {{item.labelName}}
+              <app-tool id="app-tool-{{idx}}" [toolId]="item.toolId" [toolIndex]="idx" [allowDrag]="true" [displayOnly]="false" [(model)]="form._entities[idx]"></app-tool>
+            </li>
+          </ul>
+
           <br>
           <br>
           <button md-button type="submit" class="btn btn-default" [disabled]="!documentForm.form.valid && !documentForm.form.pristine">Submit</button>
         </form>
-        <div dnd-droppable (onDropSuccess)="transferDataSuccess($event)">
-          Place to drop {{ entities | json}}
-          <br><br><br><br><br><br>
-        </div>
       </md-card>
     </app-loader-manager>
   </md-sidenav-container>

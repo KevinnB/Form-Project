@@ -17,6 +17,7 @@ import { AuthUser } from './shared/auth/authUser.model';
   providers: []
 })
 export class AppComponent implements OnInit {
+  __userSubscription: Subscription;
   user: Observable<AuthUser>;
 
   constructor (private af: AngularFire, 
@@ -24,7 +25,9 @@ export class AppComponent implements OnInit {
              private auth: AuthService) { }
 
   logout() {
+    this.user = Observable.of(null);
     this.auth.logout();
+    this.ngOnInit();
   }
 
   ngOnInit() {

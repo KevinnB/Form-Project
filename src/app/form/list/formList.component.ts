@@ -1,3 +1,4 @@
+import { EntityService } from '../../entity/entity.service';
 import { Observable, Subscriber, Subscription } from 'rxjs/Rx';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 

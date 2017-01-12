@@ -148,6 +148,11 @@ md-list md-list-item [md-line][md-button] {
     text-align: left;
 }
 
+md-input input {
+    width: 50px;
+    text-align: right;
+}
+
 .dnd-drag-start {
     -moz-transform: scale(0.8);
     -webkit-transform: scale(0.8);

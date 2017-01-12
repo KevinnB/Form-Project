@@ -4,7 +4,7 @@ import { AuthUser } from '../shared/auth/authUser.model';
 import { AuthService } from '../shared/auth/auth.service';
 
 import { Observable } from 'rxjs/Rx';
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
 
@@ -14,8 +14,8 @@ import { cleansedModel } from '../shared/cleansed.model';
 
 @Injectable()
 export class FormService {
+
   cleanup: cleansedModel = new cleansedModel();
-  forms: FirebaseListObservable<Array<Form>>;
 
   constructor(private af: AngularFire,
               private auth: AuthService) {
@@ -47,7 +47,6 @@ export class FormService {
                 return self.hydrateForm(dbForm, data.user);
               })
             )
-
           );
         }) as FirebaseListObservable<Array<Form>>; 
   }

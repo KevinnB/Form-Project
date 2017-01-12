@@ -47,10 +47,11 @@
     </md-sidenav>
 
     <app-loader-manager [config]="_pageSettings">
-      <md-card *ngIf="form">
+      <md-card *ngIf="form && entities">
         <form (ngSubmit)="onSubmit($event, documentForm.form.valid)" #documentForm="ngForm" class="material-form">
 
           <md-input-container>
+
             <input md-input id="name" [(ngModel)]="form.name" name="name" #name="ngModel" placeholder="Name" autocomplete="false" required>
             <md-hint align="end" *ngIf="!name.valid && !name.pristine">Name is required</md-hint>
           </md-input-container>
@@ -63,20 +64,19 @@
 
           <br>
 
-          <md-card dnd-droppable (onDropSuccess)="transferDataSuccess($event)">
+          <md-card dnd-droppable (onDropSuccess)="AddToolSuccess($event)">
             Place to drop {{ entities | json}}
             <br><br><br><br><br><br>
           </md-card>
-          <ul dnd-sortable-container [sortableData]="form._entities">
-            <li *ngFor="let item of form._entities; let idx = index;" class="list-group-item" dnd-sortable [sortableIndex]="idx">
-              {{item.labelName}}
-              <app-tool id="app-tool-{{idx}}" [toolId]="item.toolId" [toolIndex]="idx" [allowDrag]="true" [displayOnly]="false" [(model)]="form._entities[idx]"></app-tool>
+          <ul dnd-sortable-container [sortableData]="entities">
+            <li *ngFor="let item of entities; let idx = index;" class="list-group-item" dnd-sortable [sortableIndex]="idx" (onDropSuccess)="orderToolSuccess($event, item, idx)">
+              <app-tool id="app-tool-{{idx}}" [toolId]="item.toolId" [toolIndex]="idx" [allowDrag]="true" [displayOnly]="false" [(model)]="entities[idx]"></app-tool>
             </li>
           </ul>
 
           <br>
           <br>
-          <button md-button type="submit" class="btn btn-default" [disabled]="!documentForm.form.valid && !documentForm.form.pristine">Submit</button>
+          <button md-button type="submit" class="btn btn-default" [disabled]="!documentForm.form.valid && !documentForm.form.pristine">Save Form</button>
         </form>
       </md-card>
     </app-loader-manager>

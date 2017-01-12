@@ -1,17 +1,19 @@
 import { EntityService } from '../../entity/entity.service';
-import { Observable, Subscriber, Subscription } from 'rxjs/Rx';
+import { Observable, Subject, Subscriber, Subscription } from 'rxjs/Rx';
+
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 
 import { Form } from '../form.model';
+import { Entity } from '../../entity/entity.model';
 import { FormService } from '../form.service';
 import { Status } from '../../shared/status.model';
 import { Tools } from '../../shared/tools.model';
 import { PageSettings } from '../../shared/pageSettings.model';
 import { KeyValue } from '../../shared/keyValue.model';
 
-import { AngularFire, AuthProviders, AuthMethods, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFire, AuthProviders, AuthMethods, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -25,14 +27,15 @@ import { AngularFire, AuthProviders, AuthMethods, FirebaseObjectObservable } fro
 })
 export class PageFormDetailsComponent {
   _pageSettings: PageSettings;
-  _subscription: Subscription;
+  _subscription: Array<Subscription>;
   tools: Array<any>;
-  formSections: Array<any>
-  entities: Array<any>;
+  formSections: Array<any>;
   statusList: Array<KeyValue>;
   formId: string;
   form$: FirebaseObjectObservable<Form>;
+  entities$: FirebaseListObservable<Entity[]>;
   form: Form;
+  entities: Array<Entity>;
 
   getkeys(list): Array<KeyValue> {
     var keys = Object.keys(list);
@@ -60,52 +63,72 @@ export class PageFormDetailsComponent {
         }, (response) => {
           self.openSnackBar("Failed to save form. Please try again.");
         });
+
+        this.es.updateEntities(this.formId, this.entities)
+        .subscribe((response) => {
+          self.openSnackBar("Entities saved.");
+        }, (response) => {
+          self.openSnackBar("Failed to save Entities. Please try again.");
+        });
     }
   }
 
   ngOnInit() {
     this.statusList = this.getkeys(Status);
-    this.formSections = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    this.entities = [];
-
-    this._pageSettings = new PageSettings(true);
     this.tools = Object.keys(Tools).filter(key => !isNaN(Number(key)));
-
+    this._pageSettings = new PageSettings(true);
+    this._subscription = [];
+    
     this.route.params.forEach((params: Params) => {
       this.formId = params['id'];
     });
 
-    this.form$ = this.fs.getForm(this.formId);
+    if(!this.formId) {
+      this.router.navigate(['PageNotFound']);
+      return;
+    }
 
-    this._subscription = this.form$
-      .switchMap((form) => {
-        return this.es.getEntities(form.$key)
-          .map(entities => {
-            form._entities = entities;
-            return form;
-          })
-      })
-      .subscribe(data => {
-        if (data) {
-          this.form = data;
-          this.entities = this.form._entities;
-          this._pageSettings.stopLoading();
-          this.ngOnDestroy();
-        } else {
-          this._pageSettings.error("Cannot find Data.");
-          this.router.navigate(['PageNotFound']);
-        }
-      });
+    this.setupSubscriptions();
   }
 
-  transferDataSuccess($event, area) {
-    var toolId = $event.dragData;
+  setupSubscriptions() {
+      this.form$ = this.fs.getForm(this.formId);
+      this.entities$ = this.es.getEntities(this.formId);
 
-    this.entities.push(Tools[toolId]);
+      this._subscription.push(this.form$.subscribe((data) => {
+        console.log(data);
+        this.form = data;
+        this._pageSettings.stopLoading();
+      }));
+      this._subscription.push(this.entities$.subscribe((data) => {
+        console.log(data);
+        this.entities = data;
+      }));
+  }
+
+  AddToolSuccess($event, area) {
+    console.log(area);
+    var entity = this.es.getBlankEntity();
+    var max = 1;
+
+    if(this.entities.length>0) {
+      max = Math.max.apply(Math, this.entities.map((o) => {return o.order;}));
+    }
+
+    entity.toolId = parseInt($event.dragData);
+    entity.order = max;
+
+    this.es.addEntity(this.form.$key, entity);
+  }
+
+  orderToolSuccess($event, item, idx) {
+    console.log($event, item, idx);
   }
 
   ngOnDestroy() {
-    this._subscription.unsubscribe();
+    for(var i = 0; i < this._subscription.length; i++) {
+      this._subscription[i].unsubscribe();
+    }
   }
 
   constructor(private fs: FormService,

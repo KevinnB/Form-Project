@@ -57,6 +57,41 @@ export class EntityService {
       }) as FirebaseListObservable<Array<Entity>>;
   }
 
+  addEntity(formId: string, data: Entity): Promise<Entity> {
+    return this.auth.getCurrentUser()
+      .map((auth) => {
+        var model;
+        // Continue setting defaults now that we have the auth.
+        data.creator = auth.uid;
+        data.creatorName = auth.displayName;
+
+        model = this.cleanup.cleanse(data);
+        console.log("Add", model);
+        data.$key = this.af.database.list('/Entities/' + formId).push(model).key;
+        return data;
+      }).toPromise();
+  }
+
+  updateEntities(formId: string, data: Array<Entity>) {
+    var promises = Array<Promise<any>>();
+
+    for (var i = 0; i < data.length; i++) {
+      data[i].updated = Date.now();
+
+      var model = this.cleanup.cleanse(data[i]);
+      console.log("Update", model);
+      promises.push(this.af.database.object('/Entities/' + formId + '/' + data[i].$key).update(model) as Promise<any>);
+    }
+
+    return Observable.zip(promises,
+      function (firstResolvedValue, secondResolvedValue) {
+        console.log(arguments);
+        return firstResolvedValue && secondResolvedValue;
+      }
+    )
+
+  }
+
   hydrateEntity(data: any, currentUser: AuthUser): Entity {
     // This translates a firebase object into a typescript object
     var entity = new Entity(data.created, data.creator, data.creatorName, data.updated, data.height, data.labelName, data.propName, data.type, data.toolId, data.cols, data.order, data.value, data.$key);
@@ -69,6 +104,10 @@ export class EntityService {
     }
 
     return entity;
+  }
+
+  getBlankEntity(): Entity {
+    return new Entity(Date.now(), "", "", Date.now(), "auto", "", "", "", 0, 1, 0);
   }
 
 }

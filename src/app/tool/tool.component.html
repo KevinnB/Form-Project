@@ -6,7 +6,9 @@
         Textbox
       </div>
       <div *ngSwitchCase="false">
-        <input [id]="'textbox-' + toolIndex" [(ngModel)]="model.value" type="text">
+        <md-input-container>
+          <input md-input [id]="'textbox-' + toolIndex" [name]="model.propName" [(ngModel)]="model.value" [type]="model.type" [attr.required]="(model._validation && model._validation.required) ? 'required' : null" autocomplete="false">
+        </md-input-container>
       </div>
     </div>
   </div>
@@ -17,7 +19,7 @@
         Dropdown
       </div>
       <div *ngSwitchCase="false">
-        <select [id]="'select-' + toolIndex" [(ngModel)]="model.value"></select>
+        <select [id]="'select-' + toolIndex" [name]="model.propName" [(ngModel)]="model.value" [attr.required]="(model._validation && model._validation.required) ? 'required' : null" autocomplete="false"></select>
       </div>
     </div>
   </div>
@@ -28,7 +30,7 @@
         Checkbox
       </div>
       <div *ngSwitchCase="false">
-        <input [id]="'checkbox-' + toolIndex" [(ngModel)]="model.value" type="checkbox">
+        <input [id]="'checkbox-' + toolIndex" [name]="model.propName" [(ngModel)]="model.value" type="checkbox" [attr.required]="(model._validation && model._validation.required) ? 'required' : null" autocomplete="false">
       </div>
     </div>
   </div>
@@ -39,7 +41,7 @@
         Radio
       </div>
       <div *ngSwitchCase="false">
-        <input [id]="'radio-' + toolIndex" [(ngModel)]="model.value" type="radio">
+        <input [id]="'radio-' + toolIndex" [name]="model.propName" [(ngModel)]="model.value" type="radio" [attr.required]="(model._validation && model._validation.required) ? 'required' : null" autocomplete="false">
       </div>
     </div>
   </div>

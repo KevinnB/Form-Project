@@ -20,7 +20,8 @@ export class ToolComponent implements OnInit {
   toolIndex: number;
   model: Object;
 
-  constructor() { }
+  constructor() { 
+  }
 
   ngOnInit() {
     console.log(this);

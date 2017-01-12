@@ -1,3 +1,4 @@
+import { Entity } from '../entity/entity.model';
 import { KeyValue } from '../shared/KeyValue.model';
 import { IFireBase } from '../shared/IFireBase.model';
 import { Status } from '../shared/status.model';
@@ -10,7 +11,6 @@ export class Form extends IFireBase{
     creator: string;
     dueDate: Number;
     groups: Array<KeyValue>;
-    _entities: Array<any>;
     externalEndpoint: Object;
 
     constructor(name:string, created:Number, creator:string, creatorName:string, updated:Number, dueDate?: Number, id?:string, status?: Status) {

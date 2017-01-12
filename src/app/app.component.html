@@ -10,6 +10,10 @@
         <md-icon fontSet="fa" fontIcon="fa-user"></md-icon>
         <span>Profile</span>
     </button>
+    <button md-menu-item routerLink="/manage" *ngIf="(user | async)?.roles.administrator">
+        <md-icon fontSet="fa" fontIcon="fa-cog"></md-icon>
+        <span>Administrator</span>
+    </button>
     <button md-menu-item (click)="logout()">
         <md-icon fontSet="fa" fontIcon="fa-power-off"></md-icon>
         <span>Logout</span>

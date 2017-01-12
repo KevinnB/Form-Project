@@ -9,7 +9,7 @@ import { Status } from '../../shared/status.model';
 import { PageSettings } from '../../shared/pageSettings.model';
 import { KeyValue } from '../../shared/keyValue.model';
 
-import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
+import { AngularFire, AuthProviders, AuthMethods, FirebaseObjectObservable } from 'angularfire2';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -23,9 +23,10 @@ import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 
 export class PageFormDetailsComponent {
   _pageSettings: PageSettings;
   _subscription: Subscription;
+  entities: Array<any>;
   statusList: Array<KeyValue>;
   formId: string;
-  form: Form;
+  form: FirebaseObjectObservable<Form>;
 
   getkeys(list) : Array<KeyValue> {
       var keys = Object.keys(list);
@@ -34,10 +35,6 @@ export class PageFormDetailsComponent {
       return keys.map((item) => {
         return new KeyValue(item, Status[item]);
       });
-  }
-
-  updateStatusHr (key) {
-    this.form._statusHR = Status[key];
   }
 
   openSnackBar(message: string) {
@@ -51,12 +48,12 @@ export class PageFormDetailsComponent {
     event.preventDefault();
     if(valid) {
 
-      this.fs.updateForm(this.form)
-        .then((response) => {
-          self.openSnackBar("Successfully saved form.");
-        }, (response) => {
-          self.openSnackBar("Failed to save form. Please try again.");
-        });
+      //this.fs.updateForm(this.form)
+      //  .then((response) => {
+      //    self.openSnackBar("Successfully saved form.");
+      //  }, (response) => {
+      //    self.openSnackBar("Failed to save form. Please try again.");
+      //  });
     }
   }
 
@@ -67,18 +64,22 @@ export class PageFormDetailsComponent {
     this.route.params.forEach((params: Params) => {
       this.formId = params['id'];
     });
-    
-    this._subscription = this.fs.getForm(this.formId).subscribe(data => {
-      if(data) {
-        this.form = data;
 
+    this.form = this.fs.getForm(this.formId);
+
+    this._subscription = this.form.subscribe(data => {
+      if(data) {
         this._pageSettings.stopLoading();
         this.ngOnDestroy();
       } else {
-        this._pageSettings.error("Cannot find Form.");
+        this._pageSettings.error("Cannot find Data.");
         this.router.navigate(['PageNotFound']);
       }
     });
+  }
+
+  transferDataSuccess ($event) {
+    this.entities.push($event.dragData);
   }
 
   ngOnDestroy(){
@@ -90,6 +91,7 @@ export class PageFormDetailsComponent {
               private route: ActivatedRoute,
               public snackBar: MdSnackBar) { 
 
+                this.entities = [];
                 this._pageSettings = new PageSettings(true);
               }
 }

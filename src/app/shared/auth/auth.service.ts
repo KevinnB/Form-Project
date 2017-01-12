@@ -24,7 +24,8 @@ import { AngularFire, AuthMethods, FirebaseAuthState, AuthProviders } from 'angu
 @Injectable()
 export class AuthService implements OnInit {
   private _userSubscription: Subscription;
-  private _user: BehaviorSubject<AuthUser> = new BehaviorSubject(null);;
+  private _user: BehaviorSubject<AuthUser> = new BehaviorSubject(null);
+  private _roles: Object;
 
   public loading: boolean;
   public message: string;
@@ -50,7 +51,12 @@ export class AuthService implements OnInit {
     this._userSubscription = this.userObservableConverter().subscribe(
       res => {
           console.log(res);
+          if(this._roles && this._roles !== res.roles) {
+            window.location.reload();
+          }
+
           this._user.next(res);
+          this._roles = res.roles;
       },
       error => {
         console.log(error);

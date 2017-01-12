@@ -1,3 +1,4 @@
+import { FirebaseObjectObservable } from 'angularfire2/database';
 import { PermissionEntry, test } from '../shared/auth/permissionEntry.model';
 import { AuthUser } from '../shared/auth/authUser.model';
 import { AuthService } from '../shared/auth/auth.service';
@@ -51,7 +52,7 @@ export class FormService {
         }) as FirebaseListObservable<Array<Form>>; 
   }
 
-  getForm(key:string): FirebaseListObservable<Form> {
+  getForm(key:string): FirebaseObjectObservable<Form> {
     var self = this;
 
     return this.auth.getCurrentUser()
@@ -70,7 +71,7 @@ export class FormService {
           } else {
             return Observable.of(null);
           }
-        }) as FirebaseListObservable<Form>;
+        }) as FirebaseObjectObservable<Form>;
   }
 
   addForm(data: Form): string {
@@ -81,6 +82,7 @@ export class FormService {
 
   updateForm(data: Form) : firebase.Promise<void> {
     data.updated = Date.now();
+
     var model = this.cleanup.cleanse(data);
     console.log("Add", model);
     return this.af.database.object('/Forms/' + data.$key).update(model);

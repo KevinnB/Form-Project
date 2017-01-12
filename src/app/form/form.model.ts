@@ -9,7 +9,8 @@ export class Form extends IFireBase{
     creatorName: string;
     creator: string;
     dueDate: Number;
-    Groups: Array<KeyValue>;
+    groups: Array<KeyValue>;
+    _entities: Array<any>;
     externalEndpoint: Object;
 
     constructor(name:string, created:Number, creator:string, creatorName:string, updated:Number, dueDate?: Number, id?:string, status?: Status) {

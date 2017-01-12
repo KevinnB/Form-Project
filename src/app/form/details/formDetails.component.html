@@ -1,6 +1,6 @@
 <div class="page-content">
   <div class="page-header">
-    <h1><a routerLink="/forms">Forms</a><small *ngIf="form">&nbsp;{{ form.name }}</small></h1>
+    <h1><a routerLink="/forms">Forms</a><small>&nbsp;{{ (form | async)?.name }}</small></h1>
     <div class="navbar-spacer"></div>
     <div class="header-btn">
       <a md-fab (click)="sidenav.toggle()">
@@ -11,46 +11,53 @@
 
   <md-sidenav-container>
     <md-sidenav #sidenav mode="side" align="right" opened="true">
-      <md-list *ngIf="form">
+      <md-list>
         <md-list-item>
           <small>
             <span class="text-muted">Name:</span><br>
-            {{form.name}}
+            {{(form | async)?.name}}
           </small>
         </md-list-item>
         <md-list-item>
           <small>
             <span class="text-muted">Created:</span><br>
-            {{form.created | date:'MM/dd/yyyy'}}
+            {{(form | async)?.created | date:'MM/dd/yyyy'}}
           </small>
         </md-list-item>
         <md-list-item>
           <small>
             <span class="text-muted">Owner:</span><br>
-            {{form.creatorName}}
+            {{(form | async)?.creatorName}}
           </small>
         </md-list-item>
         <md-list-item>
           <small>
             <span class="text-muted">Updated:</span><br>
-            {{form.updated | date:'MM/dd/yyyy'}}
+            {{(form | async)?.updated | date:'MM/dd/yyyy'}}
           </small>
         </md-list-item>
         <md-divider></md-divider>
       </md-list>
-      <md-list>
+      <md-list class="sidebar-toolbox">
         <h3 md-subheader>Toolbox</h3>
         <md-list-item>
-          <button md-button md-line>
+          <button md-button md-line dnd-draggable [dragEnabled]="true" [dragData]="{test:'true'}">
             Test
-        </button>
+          </button>
         </md-list-item>
       </md-list>
-
     </md-sidenav>
 
     <app-loader-manager [config]="_pageSettings">
-      <form (ngSubmit)="onSubmit($event, documentForm.form.valid)" #documentForm="ngForm" class="material-form" *ngIf="form">
+      <h4>Simple Drag-and-Drop</h4>
+
+      <md-card dnd-droppable (onDropSuccess)="transferDataSuccess($event)">
+        Place to drop {{entities | json}}
+        <br><br><br><br><br><br>
+      </md-card>
+
+
+      <form (ngSubmit)="onSubmit($event, documentForm.form.valid)" #documentForm="ngForm" *ngIf="(form | async)" class="material-form">
 
         <md-input-container>
           <input md-input id="name" [(ngModel)]="form.name" name="name" #name="ngModel" placeholder="Name" autocomplete="false" required>

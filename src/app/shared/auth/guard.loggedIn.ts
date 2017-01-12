@@ -18,7 +18,7 @@ export class AuthGuardLoggedIn implements CanActivate{
   canActivate(route: ActivatedRouteSnapshot, 
               state: RouterStateSnapshot): Observable<boolean> {
 
-    return this.af.auth.map((auth) =>  {
+    return this.auth.getCurrentUser().map((auth) =>  {
       if(auth == null) {
         this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
         return false;

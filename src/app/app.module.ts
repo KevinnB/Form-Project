@@ -4,10 +4,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
+import {DndModule} from 'ng2-dnd';
+
 //import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AuthService } from './shared/auth/auth.service';
 import { AuthGuardLoggedIn } from './shared/auth/guard.loggedIn';
+import { AuthGuardRoles } from './shared/auth/guard.roles';
 
 import { AngularFireModule, AuthMethods } from 'angularfire2';
 import { MaterialModule } from '@angular/material';
@@ -25,6 +28,8 @@ import { PageFormAddComponent } from './form/add/formAdd.component';
 
 import { PageNotAuthorizedComponent } from './not-authorized/not-authorized.component';
 import { PageLoginComponent } from './login/login.component';
+import { ManageComponent } from './manage/manage.component';
+
 
 // Components
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -62,6 +67,12 @@ const appRoutes: Routes = [
     component: PageLoginComponent
   },
   {
+    path: 'manage',
+    component: ManageComponent,
+    canActivate: [ AuthGuardLoggedIn, AuthGuardRoles ],
+    data: { roles: ['Administrator'] }
+  },
+  {
     path: 'not-authorized',
     component: PageNotAuthorizedComponent
   },
@@ -88,10 +99,12 @@ const appRoutes: Routes = [
     PageNotAuthorizedComponent,
     PageLoginComponent,
     UserProfileComponent,
-    LoaderManagerComponent  
+    LoaderManagerComponent,
+    ManageComponent  
     ],
   imports: [
     MaterialModule.forRoot(),
+    DndModule.forRoot(),
     // NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     BrowserModule,
@@ -105,6 +118,7 @@ const appRoutes: Routes = [
   providers: [
     AuthService,
     AuthGuardLoggedIn,
+    AuthGuardRoles,
     ApplicationSettings
   ],
   bootstrap: [

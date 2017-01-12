@@ -121,8 +121,11 @@ export class PageFormDetailsComponent {
     this.es.addEntity(this.form.$key, entity);
   }
 
-  orderToolSuccess($event, item, idx) {
-    console.log($event, item, idx);
+  orderToolSuccess(item, idx) {
+    var prevIndex = item.order;
+    var newIndex = idx;
+
+    console.log(prevIndex, newIndex);
   }
 
   ngOnDestroy() {

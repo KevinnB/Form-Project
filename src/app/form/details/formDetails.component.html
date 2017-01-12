@@ -69,7 +69,7 @@
             <br><br><br><br><br><br>
           </md-card>
           <ul dnd-sortable-container [sortableData]="entities">
-            <li *ngFor="let item of entities; let idx = index;" class="list-group-item" dnd-sortable [sortableIndex]="idx" (onDropSuccess)="orderToolSuccess($event, item, idx)">
+            <li *ngFor="let item of entities; let idx = index;" class="list-group-item" dnd-sortable [sortableIndex]="idx" (onDropSuccess)="orderToolSuccess(item, idx)">
               <app-tool id="app-tool-{{idx}}" [toolId]="item.toolId" [toolIndex]="idx" [allowDrag]="true" [displayOnly]="false" [(model)]="entities[idx]"></app-tool>
             </li>
           </ul>

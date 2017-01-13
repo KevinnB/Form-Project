@@ -1,3 +1,4 @@
+import { FirebaseListFactoryOpts, OrderByOptions } from 'angularfire2/interfaces';
 import { Tools } from '../shared/tools.model';
 import { FirebaseObjectObservable } from 'angularfire2/database';
 import { PermissionEntry } from '../shared/auth/permissionEntry.model';
@@ -28,7 +29,11 @@ export class EntityService {
 
 
     return this.auth.getCurrentUser()
-      .switchMap((user) => this.af.database.list('/Entities/' + key)
+      .switchMap((user) => this.af.database.list('/Entities/' + key, {
+         query: {
+            orderByChild: 'order'
+          }
+      })
         .map((list) => {
           return list.map((item) => {
             return self.hydrateEntity(item, user);

@@ -6,21 +6,26 @@
         Textbox
       </div>
       <div *ngSwitchCase="false">
-        <button type="button" md-icon-button [mdMenuTriggerFor]="menu" class="input-button">
+        <button type="button" md-icon-button [mdMenuTriggerFor]="menu" class="input-button" *ngIf="allowDrag">
             <md-icon>more_vert</md-icon>
         </button>
         <md-menu #menu="mdMenu">
-          <button md-menu-item>
+          <button md-menu-item (click)="editLabel(model.$key)">
               <md-icon fontSet="fa" fontIcon="fa-plus"></md-icon>
-              <span>Add/Edit Label</span>
+              <span>Edit Label</span>
           </button>
           <button md-menu-item (click)="deleteTool(model.$key)">
               <md-icon fontSet="fa" fontIcon="fa-trash-o"></md-icon>
               <span>Delete Input</span>
           </button>
+          <md-divider></md-divider>
+          <button md-menu-item (click)="advancedOptions(model.$key)">
+              <md-icon fontSet="fa" fontIcon="fa-cog"></md-icon>
+              <span>Advanced</span>
+          </button>
         </md-menu>
         <md-input-container>
-          <input md-input [id]="'textbox-' + toolIndex" [name]="model.propName" [(ngModel)]="model.value" [type]="model.type" [attr.required]="(model._validation && model._validation.required) ? 'required' : null" autocomplete="off" placeholder="Textbox Field">
+          <input md-input [id]="'textbox-' + toolIndex" [name]="model.propName" [(ngModel)]="model.value" [type]="model.type" [attr.required]="(model._validation && model._validation.required) ? 'required' : null" autocomplete="off" [placeholder]="model.labelName">
         </md-input-container>
       </div>
     </div>
@@ -32,6 +37,28 @@
         Dropdown
       </div>
       <div *ngSwitchCase="false">
+        <button type="button" md-icon-button [mdMenuTriggerFor]="menu" class="input-button" *ngIf="allowDrag">
+            <md-icon>more_vert</md-icon>
+        </button>
+        <md-menu #menu="mdMenu">
+          <button md-menu-item (click)="editLabel(model.$key)">
+              <md-icon fontSet="fa" fontIcon="fa-plus"></md-icon>
+              <span>Edit Label</span>
+          </button>
+          <button md-menu-item (click)="editOptions(model.$key)">
+              <md-icon fontSet="fa" fontIcon="fa-plus"></md-icon>
+              <span>Edit Options</span>
+          </button>
+          <button md-menu-item (click)="deleteTool(model.$key)">
+              <md-icon fontSet="fa" fontIcon="fa-trash-o"></md-icon>
+              <span>Delete</span>
+          </button>
+          <md-divider></md-divider>
+          <button md-menu-item (click)="advancedOptions(model.$key)">
+              <md-icon fontSet="fa" fontIcon="fa-cog"></md-icon>
+              <span>Advanced</span>
+          </button>
+        </md-menu>
         <md-select [id]="'select-' + toolIndex" [name]="model.propName" [(ngModel)]="model.value" [attr.required]="(model._validation && model._validation.required) ? 'required' : null">
           <md-option *ngFor="let item of model.options" [value]="item.value">
             {{item.text}}
@@ -47,7 +74,25 @@
         Checkbox
       </div>
       <div *ngSwitchCase="false">
-        <input [id]="'checkbox-' + toolIndex" [name]="model.propName" [(ngModel)]="model.value" type="checkbox" [attr.required]="(model._validation && model._validation.required) ? 'required' : null" autocomplete="off">
+        <button type="button" md-icon-button [mdMenuTriggerFor]="menu" class="input-button" *ngIf="allowDrag">
+            <md-icon>more_vert</md-icon>
+        </button>
+        <md-menu #menu="mdMenu">
+          <button md-menu-item (click)="editLabel(model.$key)">
+              <md-icon fontSet="fa" fontIcon="fa-plus"></md-icon>
+              <span>Edit Label</span>
+          </button>
+          <button md-menu-item (click)="deleteTool(model.$key)">
+              <md-icon fontSet="fa" fontIcon="fa-trash-o"></md-icon>
+              <span>Delete Input</span>
+          </button>
+          <md-divider></md-divider>
+          <button md-menu-item (click)="advancedOptions(model.$key)">
+              <md-icon fontSet="fa" fontIcon="fa-cog"></md-icon>
+              <span>Advanced</span>
+          </button>
+        </md-menu>
+        <md-checkbox [id]="'checkbox-' + toolIndex" [name]="model.propName" [(ngModel)]="model.value" [attr.required]="(model._validation && model._validation.required) ? 'required' : null">{{model.labelName}}</md-checkbox>
       </div>
     </div>
   </div>
@@ -58,7 +103,30 @@
         Radio
       </div>
       <div *ngSwitchCase="false">
+        <button type="button" md-icon-button [mdMenuTriggerFor]="menu" class="input-button" *ngIf="allowDrag">
+            <md-icon>more_vert</md-icon>
+        </button>
+        <md-menu #menu="mdMenu">
+          <button md-menu-item (click)="editLabel(model.$key)">
+              <md-icon fontSet="fa" fontIcon="fa-plus"></md-icon>
+              <span>Edit Label</span>
+          </button>
+          <button md-menu-item (click)="editOptions(model.$key)">
+              <md-icon fontSet="fa" fontIcon="fa-plus"></md-icon>
+              <span>Edit Options</span>
+          </button>
+          <button md-menu-item (click)="deleteTool(model.$key)">
+              <md-icon fontSet="fa" fontIcon="fa-trash-o"></md-icon>
+              <span>Delete Input</span>
+          </button>
+          <md-divider></md-divider>
+          <button md-menu-item (click)="advancedOptions(model.$key)">
+              <md-icon fontSet="fa" fontIcon="fa-cog"></md-icon>
+              <span>Advanced</span>
+          </button>
+        </md-menu>
         <input [id]="'radio-' + toolIndex" [name]="model.propName" [(ngModel)]="model.value" type="radio" [attr.required]="(model._validation && model._validation.required) ? 'required' : null" autocomplete="off">
+
       </div>
     </div>
   </div>
@@ -69,6 +137,15 @@
         Helper Text
       </div>
       <div *ngSwitchCase="false">
+        <button type="button" md-icon-button [mdMenuTriggerFor]="menu" class="input-button" *ngIf="allowDrag">
+            <md-icon>more_vert</md-icon>
+        </button>
+        <md-menu #menu="mdMenu">
+          <button md-menu-item (click)="deleteTool(model.$key)">
+              <md-icon fontSet="fa" fontIcon="fa-trash-o"></md-icon>
+              <span>Delete Input</span>
+          </button>
+        </md-menu>
         <md-input-container>
           <textarea md-input [id]="'helper-' + toolIndex" [name]="model.propName" [(ngModel)]="model.value" [type]="model.type" [attr.required]="(model._validation && model._validation.required) ? 'required' : null" placeholder="Helper Text" autocomplete="off"></textarea>
         </md-input-container>

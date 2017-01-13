@@ -31,7 +31,6 @@ export class ToolComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this);
   }
 
   deleteTool(key: string) {

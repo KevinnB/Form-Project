@@ -36,6 +36,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { LoaderManagerComponent } from './loader-manager/loader-manager.component';
 import { EntityComponent } from './entity/entity.component';
 import { ToolComponent } from './tool/tool.component';
+import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 
 
 // Must export the config
@@ -104,8 +105,10 @@ const appRoutes: Routes = [
     LoaderManagerComponent,
     ManageComponent,
     EntityComponent,
-    ToolComponent  
+    ToolComponent,
+    DeleteConfirmComponent  
     ],
+  entryComponents: [ DeleteConfirmComponent ],
   imports: [
     MaterialModule.forRoot(),
     DndModule.forRoot(),

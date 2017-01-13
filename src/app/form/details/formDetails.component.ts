@@ -64,7 +64,7 @@ export class PageFormDetailsComponent {
           self.openSnackBar("Failed to save form. Please try again.");
         });
 
-        this.es.updateEntities(this.formId, this.entities)
+      this.es.updateEntities(this.formId, this.entities)
         .subscribe((response) => {
           self.openSnackBar("Entities saved.");
         }, (response) => {
@@ -78,12 +78,12 @@ export class PageFormDetailsComponent {
     this.tools = Object.keys(Tools).filter(key => !isNaN(Number(key)));
     this._pageSettings = new PageSettings(true);
     this._subscription = [];
-    
+
     this.route.params.forEach((params: Params) => {
       this.formId = params['id'];
     });
 
-    if(!this.formId) {
+    if (!this.formId) {
       this.router.navigate(['PageNotFound']);
       return;
     }
@@ -92,31 +92,36 @@ export class PageFormDetailsComponent {
   }
 
   setupSubscriptions() {
-      this.form$ = this.fs.getForm(this.formId);
-      this.entities$ = this.es.getEntities(this.formId);
+    this.form$ = this.fs.getForm(this.formId);
+    this.entities$ = this.es.getEntities(this.formId);
 
-      this._subscription.push(this.form$.subscribe((data) => {
-        console.log(data);
-        this.form = data;
-        this._pageSettings.stopLoading();
-      }));
-      this._subscription.push(this.entities$.subscribe((data) => {
-        console.log(data);
-        this.entities = data;
-      }));
+    this._subscription.push(this.form$.subscribe((data) => {
+      console.log(data);
+      this.form = data;
+      this._pageSettings.stopLoading();
+    }));
+    this._subscription.push(this.entities$.subscribe((data) => {
+      console.log(data);
+      this.entities = data;
+    }));
   }
 
-  AddToolSuccess($event, area) {
+  addToolSuccess($event, area) {
     console.log(area);
-    var entity = this.es.getBlankEntity();
+    var toolId = parseInt($event.dragData);
+    var entity = this.es.getBlankEntity(toolId);
     var max = 1;
 
-    if(this.entities.length>0) {
-      max = Math.max.apply(Math, this.entities.map((o) => {return o.order;}));
+    if (this.entities.length > 0) {
+      max = Math.max.apply(Math, this.entities.map((o) => { return o.order; }));
     }
 
-    entity.toolId = parseInt($event.dragData);
     entity.order = max;
+    entity.toolId = toolId;
+
+    if (entity.toolId !== Tools.Select) {
+      entity.options = [];
+    }
 
     this.es.addEntity(this.form.$key, entity);
   }
@@ -129,7 +134,7 @@ export class PageFormDetailsComponent {
   }
 
   ngOnDestroy() {
-    for(var i = 0; i < this._subscription.length; i++) {
+    for (var i = 0; i < this._subscription.length; i++) {
       this._subscription[i].unsubscribe();
     }
   }

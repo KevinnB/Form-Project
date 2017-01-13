@@ -10,10 +10,11 @@ export class Entity extends IFireBase{
     toolId: number;
     cols: number;
     order: number;
-    value?: string;
+    value?: string | number;
+    options?: Array<any>;
     _validation: Object;
 
-    constructor(created:Number, creator:string, creatorName:string, updated:Number, height:string, labelName:string,propName:string, type:string, toolId:number, cols:number, order:number, value?:string, id?:string) {
+    constructor(created:Number, creator:string, creatorName:string, updated:Number, height:string, labelName:string,propName:string, type:string, toolId:number, cols:number, order:number, value?:string | number, options?:Array<any>, id?:string) {
         super(created, creator, creatorName, updated, id);
         this.height = height;
         this.labelName = labelName,
@@ -22,6 +23,7 @@ export class Entity extends IFireBase{
         this.cols = cols;
         this.order = order;
         this.toolId = toolId;
-        this.value=value;
+        this.value = value;
+        this.options = options;
     }
 }

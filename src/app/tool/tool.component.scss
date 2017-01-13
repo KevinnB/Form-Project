@@ -11,4 +11,16 @@
             background-color: #eee;
         }
     }
+    .input-button {
+        float: right;
+    }
+    md-select,
+    md-input-container {
+        display: block;
+        margin-bottom: 35px;
+        margin-right: 50px;
+    }
+    .md-input-wrapper>.md-input-underline {
+        margin-top: 7px !important;
+    }
 }

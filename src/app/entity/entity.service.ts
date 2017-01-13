@@ -1,3 +1,4 @@
+import { Tools } from '../shared/tools.model';
 import { FirebaseObjectObservable } from 'angularfire2/database';
 import { PermissionEntry } from '../shared/auth/permissionEntry.model';
 import { AuthUser } from '../shared/auth/authUser.model';
@@ -72,6 +73,13 @@ export class EntityService {
       }).toPromise();
   }
 
+  deleteEntity(formId: string, key:string) {
+    return Observable.forkJoin(
+      this.af.database.object(`Entities/${formId}/${key}`).remove(),
+      this.af.database.object(`EntityValidation/${key}`).remove()
+    );
+  }
+
   updateEntities(formId: string, data: Array<Entity>) {
     var promises = Array<Promise<any>>();
 
@@ -94,7 +102,7 @@ export class EntityService {
 
   hydrateEntity(data: any, currentUser: AuthUser): Entity {
     // This translates a firebase object into a typescript object
-    var entity = new Entity(data.created, data.creator, data.creatorName, data.updated, data.height, data.labelName, data.propName, data.type, data.toolId, data.cols, data.order, data.value, data.$key);
+    var entity = new Entity(data.created, data.creator, data.creatorName, data.updated, data.height, data.labelName, data.propName, data.type, data.toolId, data.cols, data.order, data.value, data.options, data.$key);
 
     entity._permission.addRole(PermissionEntry.CanAccess);
 
@@ -106,8 +114,17 @@ export class EntityService {
     return entity;
   }
 
-  getBlankEntity(): Entity {
-    return new Entity(Date.now(), "", "", Date.now(), "auto", "", "", "", 0, 1, 0);
+  getBlankEntity(toolId: Tools): Entity {
+    var entity = new Entity(Date.now(), "", "", Date.now(), "auto", "", "", "", 0, 1, 0);
+
+    if (toolId === Tools.Select) {
+      var options = [];
+      options.push({ text: '- Select an Option -', value: -1 });
+      entity.options = options;
+      entity.value = -1;
+    }
+
+    return entity;
   }
 
 }

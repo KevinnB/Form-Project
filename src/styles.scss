@@ -90,7 +90,9 @@ app-root,
 }
 
 .material-form {
-    margin: 15px 0px;
+    md-input-container {
+        margin-bottom: 25px;
+    }
 }
 
 .page-content {

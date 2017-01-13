@@ -2,5 +2,6 @@ export enum Tools {
     Textbox = 1,
     Select = 2,
     Checkbox = 3,
-    Radio = 4
+    Radio = 4,
+    HelperText = 5
 }

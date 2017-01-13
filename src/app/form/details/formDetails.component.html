@@ -48,36 +48,33 @@
 
     <app-loader-manager [config]="_pageSettings">
       <md-card *ngIf="form && entities">
-        <form (ngSubmit)="onSubmit($event, documentForm.form.valid)" #documentForm="ngForm" class="material-form">
+        <md-card-content>
+          <h2>{{ form.name }}</h2>
+          <form (ngSubmit)="onSubmit($event, documentForm.form.valid)" #documentForm="ngForm" class="material-form" dnd-droppable (onDropSuccess)="addToolSuccess($event)">
 
-          <md-input-container>
+            <md-input-container>
+              <input md-input id="name" [(ngModel)]="form.name" name="name" #name="ngModel" placeholder="Name" autocomplete="false" required>
+              <md-hint align="end" *ngIf="!name.valid && !name.pristine">Name is required</md-hint>
+            </md-input-container>
 
-            <input md-input id="name" [(ngModel)]="form.name" name="name" #name="ngModel" placeholder="Name" autocomplete="false" required>
-            <md-hint align="end" *ngIf="!name.valid && !name.pristine">Name is required</md-hint>
-          </md-input-container>
+            <md-select placeholder="Status" [(ngModel)]="form.status" name="status">
+              <md-option *ngFor="let item of statusList" [value]="item.value">
+                {{ item.key }}
+              </md-option>
+            </md-select>
 
-          <md-select placeholder="Status" [(ngModel)]="form.status" name="status">
-            <md-option *ngFor="let item of statusList" [value]="item.value">
-              {{ item.key }}
-            </md-option>
-          </md-select>
+            <div dnd-sortable-container [sortableData]="entities">
+              <div *ngFor="let item of entities; let idx = index;" dnd-sortable [sortableIndex]="idx" (onDropSuccess)="orderToolSuccess(item, idx)">
+                <app-tool id="app-tool-{{idx}}" [toolId]="item.toolId" [formId]="form.$key" [toolIndex]="idx" [allowDrag]="true" [displayOnly]="false" [(model)]="entities[idx]"></app-tool>
+              </div>
+            </div>
 
-          <br>
-
-          <md-card dnd-droppable (onDropSuccess)="AddToolSuccess($event)">
-            Place to drop {{ entities | json}}
-            <br><br><br><br><br><br>
-          </md-card>
-          <ul dnd-sortable-container [sortableData]="entities">
-            <li *ngFor="let item of entities; let idx = index;" class="list-group-item" dnd-sortable [sortableIndex]="idx" (onDropSuccess)="orderToolSuccess(item, idx)">
-              <app-tool id="app-tool-{{idx}}" [toolId]="item.toolId" [toolIndex]="idx" [allowDrag]="true" [displayOnly]="false" [(model)]="entities[idx]"></app-tool>
-            </li>
-          </ul>
-
-          <br>
-          <br>
-          <button md-button type="submit" class="btn btn-default" [disabled]="!documentForm.form.valid && !documentForm.form.pristine">Save Form</button>
-        </form>
+            <br>
+            <br>
+            <button md-button type="submit" class="btn btn-default" [disabled]="!documentForm.form.valid && !documentForm.form.pristine">Save Form</button>
+            <br> Place to drop {{ entities | json}}
+          </form>
+        </md-card-content>
       </md-card>
     </app-loader-manager>
   </md-sidenav-container>

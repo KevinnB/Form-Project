@@ -96,18 +96,15 @@ export class PageFormDetailsComponent {
     this.entities$ = this.es.getEntities(this.formId);
 
     this._subscription.push(this.form$.subscribe((data) => {
-      console.log(data);
       this.form = data;
       this._pageSettings.stopLoading();
     }));
     this._subscription.push(this.entities$.subscribe((data) => {
-      console.log(data);
       this.entities = data;
     }));
   }
 
   addToolSuccess($event, area) {
-    console.log(area);
     var toolId = parseInt($event.dragData);
     var entity = this.es.getBlankEntity(toolId);
     var max = 1;
